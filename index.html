@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    body {
+        margin: 0;
+    }
+
+    * {
+        font-family: 'Oswal' !important;
+    }
+
+    img {
+        border-radius: 100%;
+    }
+
+    #principal {
+        width: 100%;
+        height: 100%;
+        background-color: #7f1c3b;
+    }
+
+    #logo {
+        width: 8%;
+    }
+
+    #title-container {
+        text-align: center;
+        padding: 10px 30px 0 30px;
+        margin-bottom: 60px !important;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #title-container h2 {
+        color: #fff;
+        margin: 0;
+        font-weight: bold;
+
+    }
+
+    .cards-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+
+    .card {
+        background-color: #7f1c3b !important;
+        border: 2px solid #fff !important;
+        width: 40%;
+        height: 250px;
+        margin: 0 30px 20px 30px;
+        padding: 5px 0px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: rgba(168, 46, 85, 0.4) 5px 5px, rgb(168 46 85 / 30%) 10px 10px, rgb(168 46 85 / 20%) 15px 15px, rgb(168 46 85 / 10%) 20px 20px, rgb(168 46 85 / 5%) 25px 25px;
+    }
+
+    .cards:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: ' ';
+        background: linear-gradient(to right, #ad5389, #3c1053);
+        width: 40%;
+        height: 250px;
+        filter: blur(10%);
+
+    }
+
+    .button-container {
+
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #title-card-container {
+        color: #fff;
+        margin: 0 !important;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    #title-card-container h2 {
+        color: #fff;
+        margin: 0;
+        font-size: 30px;
+    }
+
+    .buttons {
+        width: 180px;
+        height: 30px;
+        padding: 8px;
+        cursor: pointer;
+        font-family: 'Merriweather Sans', sans-serif;
+        border-radius: 5px;
+        border: 1px solid white;
+        font-size: 12px;
+        color: #000;
+        font-weight: bold;
+
+    }
+
+    .buttons:hover {
+        opacity: 0.8;
+    }
+
+    .buttons:active {
+        background-color: #c1c3c1;
+        box-shadow: 0 5px #666;
+        transform: translateY(3px);
+    }
+
+    #estado {
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #estado h3 {
+        font-weight: normal;
+    }
+
+    #estado h4 {
+        font-weight: bold;
+        font-size: 25px;
+        margin-left: 8px;
+    }
+
+    #posicion {
+        margin: 0 20px 0 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: #fff;
+        justify-content: space-between;
+    }
+
+    #posicion label {
+
+        background-color: #fff;
+        padding: 5px 15px 5px 15px;
+        color: #000;
+    }
+
+    #posicion-element {
+        display: flex;
+        align-items: center;
+    }
+
+    .valores {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #fff;
+        padding: 0 5px 0 5px;
+    }
+
+    .valores div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 3px 0 3px 0;
+    }
+
+    .valores div p {
+        margin: 0;
+    }
+
+    #div-area {
+        width: 97%;
+        height: 200px;
+    }
+
+    #area {
+        width: 100%;
+        margin-right: 20px;
+        height: 100%;
+    }
+
+    .temp-hum {
+        font-size: 20;
+    }
+
+    .img-container {
+        width: 33%;
+    }
+
+    .logo-img {
+        width: 103px;
+    }
+
+    /* login modal */
+
+    .container {
+        padding: 2rem 0rem;
+    }
+
+    .form-title {
+        margin: -2rem 0rem 2rem;
+    }
+
+    .btn-round {
+        border-radius: 3rem;
+    }
+
+    .delimiter {
+        padding: 1rem;
+    }
+
+    .signup-section {
+        padding: 0.3rem 0rem;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Oswald:wght@300;400;600&family=Work+Sans:ital,wght@0,100;0,500;1,200;1,300&display=swap"
+        rel="stylesheet">
+
+    <title>Vehiculo ANGUILA</title>
+</head>
+
+<body>
+    <div id="principal">
+        <div id="title-container">
+            <div class="img-container">
+                <img class="logo-img" src="img/walt-disney.png" alt="">
+            </div>
+            <div>
+                <h2>
+                    Vehiculo Modular Acuatico Para Barimetria En Aguas Someras
+                </h2>
+                <h2>ANGUILA 1.0</h2>
+            </div>
+            <div class="img-container">
+                <img class="logo-img" src="img/wall.jpg">
+                <img class="logo-img" src="img/images.png">
+            </div>
+
+        </div>
+        <div class="cards-container">
+            <div class="card">
+                <div id="title-card-container">
+                    <h2>CAMBIO DE MODALIDAD</h2>
+                </div>
+                <div class="button-container">
+                    <button id="manual" class="buttons btn-modalidad"
+                        onclick="cambiarModalidad('manual')">MANUAL</button>
+                    <button id="Autonomo" class="buttons btn-modalidad"
+                        onclick="cambiarModalidad('autonomo')">AUTÓNOMO</button>
+                </div>
+                <div id="estado">
+                    <h3>ESTADO ACTUAL:</h3>
+                    <h4 id="estadoModalidad">Seleccionar opcion...</h1>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="title-card-container">
+                    <h2>LECTURAS</h2>
+                </div>
+                <div id="posicion">
+                    <div id="posicion-element">
+                        <p>Temp</p>&nbsp &nbsp &nbsp &nbsp
+                        <label> 1480 </label>
+                    </div>
+                    <div id="posicion-element">
+                        <p>Posicion Actual (Encoder)</p>&nbsp &nbsp
+                        <div class="valores">
+                            <div>
+                                <label> 1480 </label> &nbsp <p>PWM</p>
+                            </div>
+                            <div>
+                                <label> 1480 </label> &nbsp <p>mm</p>
+                            </div>
+                            <div>
+                                <label> 1480 </label> &nbsp <p>grados</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="posicion">
+                    <div id="posicion-element">
+                        <p>% Hum</p>&nbsp &nbsp
+                        <label> 1480 </label>
+                    </div>
+                    <div id="posicion-element">
+                        <p>Posicion Deseada Por Piloto</p>&nbsp &nbsp
+                        <div class="valores">
+                            <div>
+                                <label> 1480 </label> &nbsp <p>PWM</p>
+                            </div>
+                            <div>
+                                <label> 1480 </label> &nbsp <p>mm</p>
+                            </div>
+                            <div>
+                                <label> 1480 </label> &nbsp <p>grados</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards-container">
+
+            <div class="card">
+                <div id="title-card-container">
+                    <h2>PRUEBA DE SISTEMA DE DIRECCIÓN</h2>
+                </div>
+                <div class="button-container">
+                    <button class="buttons">Mover hacia BABOR</button>
+                    <button class="buttons">Mover hacia ESTRIBOR</button>
+                </div>
+                <div id="estado">
+                    <p>...</p>
+                </div>
+                <div class="button-container">
+                    <button class="buttons">CALIBRACION DE LIMITES</button>
+                    <button class="buttons">REINICIO DEL SISTEMA</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="title-card-container">
+                    <h2>ESTADO DEL SISTEMA</h2>
+                </div>
+                <div id="div-area">
+                    <textarea id="area" readonly></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogin" id="btnModalLogin"
+        style="display: none;">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">LOGIN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email1" placeholder="Tu email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password1" placeholder="Tu contraseña">
+                        </div>
+                        <button type="button" class="btn btn-info btn-block btn-round">Login</button>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <div class="signup-section">No tienes una cuenta? <a href="#a" class="text-info"> Sign Up</a>.</div>
+                </div>
+                <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalLogin'))
+            myModal.show();
+
+        });
+
+
+        //variables
+        let estadoModalidad = document.getElementById("estadoModalidad");
+
+        //acciones
+
+
+
+
+        function abrirmodal() {
+            $("#modalLogin").modal("Show");
+        }
+
+        //funciones
+        function cambiarModalidad(tipoModalidad) {
+            switch (tipoModalidad) {
+                case 'manual':
+                    let isManual = confirm("¿Desea cambiar a modalidad Manual?");
+                    if (isManual) {
+                        estadoModalidad.textContent = "MANUAL";
+                    }
+                    break;
+
+                case 'autonomo':
+                    let isAutonomo = confirm("¿Desea cambiar a modalidad Autonomo?");
+                    if (isAutonomo) {
+                        estadoModalidad.textContent = "AUTONOMO";
+                    }
+                    break;
+
+                default:
+                    estadoModalidad.textContent = "Seleccionar opcion.";
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>
