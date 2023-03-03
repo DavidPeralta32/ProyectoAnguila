@@ -24,12 +24,10 @@
     }
 
     #title-container {
+        width: 100%;
         text-align: center;
         padding: 10px 30px 0 30px;
         margin-bottom: 60px !important;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
     }
 
     #title-container h2 {
@@ -93,7 +91,7 @@
 
     .buttons {
         width: 180px;
-        height: 30px;
+        height: 40px;
         padding: 8px;
         cursor: pointer;
         font-family: 'Merriweather Sans', sans-serif;
@@ -219,6 +217,96 @@
     .signup-section {
         padding: 0.3rem 0rem;
     }
+
+    #btn-Confirmar{
+        width: 100%;
+        margin-top: 10px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .alert{
+        height: 45px;
+        text-align: center;
+        margin-top: 8px;
+        padding-top: 10px !important;
+        display: none;
+    }
+
+    /* botones modalidad */
+    #manual, #Autonomo{
+        height: 80px;
+        width: 180px;
+        font-size: 18px;
+    }
+
+    /* botones direccion */
+    #statusDireccion{
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    #estadoDireccion{
+        width: 100%;
+        display: flex;
+        justify-content:  space-evenly;
+    }
+
+    /* loader */
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  font-size: 8px;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s;
+}
+.loader:before {
+  left: -3.5em;
+}
+.loader:after {
+  left: 3.5em;
+  -webkit-animation-delay: 0.32s;
+  animation-delay: 0.32s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 20px 0 -1.3em #ffffff;
+  }
+  40% {
+    box-shadow: 0 20px 0 0 #FFF;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 20px 0 -1.3em #ffffff;
+  }
+  40% {
+    box-shadow: 0 20px 0 0 #FFF;
+  }
+}
+
 </style>
 
 <head>
@@ -230,9 +318,8 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Courgette&family=Oswald:wght@300;400;600&family=Work+Sans:ital,wght@0,100;0,500;1,200;1,300&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&family=Oswald:wght@300;400;600&family=Work+Sans:ital,wght@0,100;0,500;1,200;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>   
 
     <title>Vehiculo ANGUILA</title>
 </head>
@@ -240,20 +327,12 @@
 <body>
     <div id="principal">
         <div id="title-container">
-            <div class="img-container">
-                <img class="logo-img" src="img/walt-disney.png" alt="">
-            </div>
             <div>
                 <h2>
                     Vehiculo Modular Acuatico Para Barimetria En Aguas Someras
                 </h2>
                 <h2>ANGUILA 1.0</h2>
             </div>
-            <div class="img-container">
-                <img class="logo-img" src="img/wall.jpg">
-                <img class="logo-img" src="img/images.png">
-            </div>
-
         </div>
         <div class="cards-container">
             <div class="card">
@@ -261,10 +340,8 @@
                     <h2>CAMBIO DE MODALIDAD</h2>
                 </div>
                 <div class="button-container">
-                    <button id="manual" class="buttons btn-modalidad"
-                        onclick="cambiarModalidad('manual')">MANUAL</button>
-                    <button id="Autonomo" class="buttons btn-modalidad"
-                        onclick="cambiarModalidad('autonomo')">AUTÓNOMO</button>
+                    <button id="manual" class="buttons btn-modalidad" onclick="cambiarModalidad('manual')">MANUAL</button>
+                    <button id="Autonomo" class="buttons btn-modalidad" onclick="cambiarModalidad('autonomo')">AUTÓNOMO</button>
                 </div>
                 <div id="estado">
                     <h3>ESTADO ACTUAL:</h3>
@@ -328,15 +405,15 @@
                     <h2>PRUEBA DE SISTEMA DE DIRECCIÓN</h2>
                 </div>
                 <div class="button-container">
-                    <button class="buttons">Mover hacia BABOR</button>
-                    <button class="buttons">Mover hacia ESTRIBOR</button>
+                    <button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>
+                    <button class="buttons" onclick="cambiarDireccion('ESTRIBOR')">Mover hacia ESTRIBOR</button>
                 </div>
-                <div id="estado">
-                    <p>...</p>
+                <div id="estadoDireccion">
+                    <p id="statusDireccion" ><p class="loader" id="loader">...</p></p>
                 </div>
                 <div class="button-container">
-                    <button class="buttons">CALIBRACION DE LIMITES</button>
-                    <button class="buttons">REINICIO DEL SISTEMA</button>
+                    <button class="buttons" id="btnCalibacrionLim">CALIBRACION DE LIMITES</button>
+                    <button class="buttons" id="btnReinicioSistem">REINICIO DEL SISTEMA</button>
                 </div>
             </div>
 
@@ -363,27 +440,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">LOGIN</h1>
+                    <h1  class="modal-title fs-5" id="titleModal">Confirmar Contraseña</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email1" placeholder="Tu email">
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Contraseña">
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="password1" placeholder="Tu contraseña">
-                        </div>
-                        <button type="button" class="btn btn-info btn-block btn-round">Login</button>
+                        <div class="alert alert-danger" role="alert" id="alert">
+                            Contraseña incorrecta, introduzca nuevamente la contraseña.
+                          </div>
+                        <button id="btn-Confirmar" type="button" class="btn btn-info btn-block btn-round">Confirmar</button>
                     </form>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <div class="signup-section">No tienes una cuenta? <a href="#a" class="text-info"> Sign Up</a>.</div>
-                </div>
-                <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
             </div>
         </div>
     </div>
@@ -396,28 +466,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
         integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
     </script>
+    <!-- Funciones JS -->
     <script>
         $(document).ready(function () {
 
-            var myModal = new bootstrap.Modal(document.getElementById('modalLogin'))
-            myModal.show();
+            
 
         });
 
 
-        //variables
+        //***variables***
+        var myModal;
+        let password;
         let estadoModalidad = document.getElementById("estadoModalidad");
+        let estadoDireccion = document.getElementById("statusDireccion");
+        let loader = document.getElementById("loader");
+        let alertPassword = document.getElementById("alert")
+        let btnCalibacrionLim = document.getElementById("btnCalibacrionLim");
+        let btnReinicioSistem = document.getElementById("btnReinicioSistem");
+        let btnConfirmarPassword = document.getElementById("btn-Confirmar");
 
-        //acciones
 
+        //***funciones***
 
-
-
-        function abrirmodal() {
-            $("#modalLogin").modal("Show");
-        }
-
-        //funciones
+        //Funcion que cambia la modalidad de manual a autonomo o viseverza
         function cambiarModalidad(tipoModalidad) {
             switch (tipoModalidad) {
                 case 'manual':
@@ -439,6 +511,54 @@
                     break;
             }
         }
+
+
+        //Funcion que cambia la direccion a babor o estribor
+        function cambiarDireccion(direccion){
+            switch (direccion) {
+                case 'BABOR':
+                        estadoDireccion.textContent = "Moviendo a BABOR";
+                        loader.setAttribute("style", "left:-48px; top: -5px;");
+                    break;
+
+                case 'ESTRIBOR':
+                        estadoDireccion.textContent = "Moviendo a ESTRIBOR";
+                        loader.setAttribute("style", "left:-48px; top: -5px;");
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+
+        //Evento click para brir el modal de contraseña y verificar si es valida
+        btnCalibacrionLim.addEventListener("click",abrirModalPassword);
+        btnReinicioSistem.addEventListener("click",abrirModalPassword);
+
+
+        //funcion que abre el modal para verificar la contraseña que se le pide al usuario.
+        function abrirModalPassword(){
+            myModal = new bootstrap.Modal(document.getElementById('modalLogin'));
+            password = document.getElementById("txtPassword")
+            password.value = "";
+            alertPassword.setAttribute("style", "display: none;");
+            myModal.show();
+        }
+
+        function validarPassword(){
+            password = document.getElementById("txtPassword").value;
+            if(password === "123"){
+                myModal.hide();
+            }else{
+                alertPassword.setAttribute("style", "display: block;");
+            }
+        }
+
+        btnConfirmarPassword.onclick = validarPassword;
+
+
+
+
     </script>
 </body>
 
