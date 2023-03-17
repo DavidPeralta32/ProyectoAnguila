@@ -6,7 +6,7 @@
     }
 
     * {
-        font-family: 'Oswal' !important;
+        font-family:  'Quicksand', sans-serif !important;
     }
 
     img {
@@ -86,7 +86,7 @@
     #title-card-container h2 {
         color: #fff;
         margin: 0;
-        font-size: 30px;
+        font-size: 26px;
     }
 
     .buttons {
@@ -94,7 +94,6 @@
         height: 40px;
         padding: 8px;
         cursor: pointer;
-        font-family: 'Merriweather Sans', sans-serif;
         border-radius: 5px;
         border: 1px solid white;
         font-size: 12px;
@@ -226,12 +225,16 @@
         font-weight: bold;
     }
 
-    .alert {
+    .alertPassword {
         height: 45px;
         text-align: center;
         margin-top: 8px;
         padding-top: 10px !important;
         display: none;
+        background-color: rgb(184, 9, 9);
+        color: white;
+        opacity: 0.8;
+        border-radius: 10px;
     }
 
     /* botones modalidad */
@@ -253,6 +256,16 @@
         width: 100%;
         display: flex;
         justify-content: space-evenly;
+    }
+
+    #liveAlertPlaceholder {
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        z-index: 1;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
     }
 </style>
 
@@ -283,6 +296,9 @@
                 <h2>ANGUILA 1.0</h2>
             </div>
         </div>
+        <!-- Alert para mover a estribor y babor -->
+        <div id="liveAlertPlaceholder"></div>
+
         <div class="cards-container">
             <div class="card">
                 <div id="title-card-container">
@@ -399,7 +415,7 @@
                         <div class="form-group">
                             <input type="password" class="form-control" id="txtPassword" placeholder="Contraseña">
                         </div>
-                        <div class="alert alert-danger" role="alert" id="alert">
+                        <div class="alertPassword alert-danger" role="alert" id="alert">
                             Contraseña incorrecta, introduzca nuevamente la contraseña.
                         </div>
                         <button id="btn-Confirmar" type="button"
@@ -422,7 +438,7 @@
     <!-- Funciones JS -->
     <script>
         $(document).ready(function () {
-            var intervalID = setInterval(estatuSistema, 5000);
+            var intervalID = setInterval(estatuSistema, 1000);
         });
 
         //***variables***
@@ -431,6 +447,8 @@
         let areaSistema;
         let estadoReinicioSistema = false;
         let estadoCalibracion = false;
+        let estadoBabor = false;
+        let estadoEstribor = false;
         let estadoModalidad = document.getElementById("estadoModalidad");
         estadoModalidad.value = "";
         let estadoDireccion = document.getElementById("statusDireccion");
@@ -439,6 +457,7 @@
         let btnCalibacrionLim = document.getElementById("btnCalibacrionLim");
         let btnReinicioSistem = document.getElementById("btnReinicioSistem");
         let btnConfirmarPassword = document.getElementById("btn-Confirmar");
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
 
         //***funciones***
@@ -453,7 +472,6 @@
                         estadoModalidad.textContent = "MANUAL";
                     }
                     break;
-
                 case 'autonomo':
                     let isAutonomo = confirm("¿Desea cambiar a modalidad Autonomo?");
                     if (isAutonomo) {
@@ -461,7 +479,6 @@
                         estadoModalidad.textContent = "AUTONOMO";
                     }
                     break;
-
                 default:
                     estadoModalidad.textContent = "Seleccionar opcion.";
                     break;
@@ -473,15 +490,25 @@
         function cambiarDireccion(direccion) {
             switch (direccion) {
                 case 'BABOR':
-                    estadoDireccion.textContent = "Moviendo a BABOR";
-                    loader.setAttribute("style", "left:-48px; top: -5px;");
+                    let moverBabor = confirm("¿Desea mover a BABOR?");
+                    if (moverBabor) {
+                        estadoEstribor = false;
+                        estadoBabor = true;
+                        abrirModalPassword();
+                    } else {
+                        estadoBabor = false;
+                    }
                     break;
-
                 case 'ESTRIBOR':
-                    estadoDireccion.textContent = "Moviendo a ESTRIBOR";
-                    loader.setAttribute("style", "left:-48px; top: -5px;");
+                    let moverEstribor = confirm("¿Desea mover a ESTRIBOR?");
+                    if (moverEstribor) {
+                        estadoBabor = false;
+                        estadoEstribor = true;
+                        abrirModalPassword();
+                    } else {
+                        estadoEstribor = false;
+                    }
                     break;
-
                 default:
                     break;
             }
@@ -489,11 +516,11 @@
         }
 
         //Evento click para brir el modal de contraseña y verificar si es valida
-        btnCalibacrionLim.addEventListener("click", function(){
+        btnCalibacrionLim.addEventListener("click", function () {
             estadoCalibracion = true;
             abrirModalPassword();
         });
-        btnReinicioSistem.addEventListener("click", function(){
+        btnReinicioSistem.addEventListener("click", function () {
             estadoReinicioSistema = true;
             abrirModalPassword();
         });
@@ -513,14 +540,38 @@
             password = document.getElementById("txtPassword").value;
             if (password === "123") {
                 myModal.hide();
-                if(estadoCalibracion){
+                var div = document.getElementById("liveAlertPlaceholder");
+                if (estadoCalibracion) {
                     //TODO Calibracion
+                    estadoCalibracion = false;
+                    window.location.assign("./calibracionView.html");
                 }
-                if(estadoReinicioSistema){
+                if (estadoReinicioSistema) {
                     //TODO reinicio de sistema
                     estatuSistema();
                     estadoModalidad.value = "";
                     estadoDireccion.textContent = "...";
+                    alerta('Se reinicio correctamente el sistema!', 'success');
+                    setTimeout(() => {
+                       div.innerHTML = '';
+                    }, "5000");
+                    estadoReinicioSistema = false;
+                }
+                if (estadoBabor) {
+                    alerta('Direccion correcta a Babor!', 'success');
+                    setTimeout(() => {
+                       div.innerHTML = '';
+                    }, "5000");
+                    estadoDireccion.textContent = "Moviendo a BABOR";
+                    estadoBabor = false;
+                }
+                if (estadoEstribor) {
+                    alerta('Direccion correcta a Estribor!', 'success');
+                    setTimeout(() => {
+                       div.innerHTML = '';
+                    }, "5000");
+                    estadoDireccion.textContent = "Moviendo a ESTRIBOR";
+                    estadoEstribor = false;
                 }
             } else {
                 alertPassword.setAttribute("style", "display: block;");
@@ -540,7 +591,7 @@
                 let statusInicioSistema = estatusInicioSistema();
                 let statusModalidad = estatusModalidad();
                 areaSistema.value += "\nEsperando órdenes...";
-            }, "5000");
+            }, "1000");
         }
 
 
@@ -561,6 +612,23 @@
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent + " activado";
                 return true;
             }
+        }
+
+        function estatusDireccion(){
+
+        }
+
+        //Se crea la funcion alerta para mostrar mensaje de babor o estribor correctamente.
+        const alerta = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
         }
     </script>
 </body>
