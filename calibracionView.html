@@ -1,12 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background-color: #7f1c3b;
+    }
+
+    * {
+        font-family: 'Quicksand', sans-serif !important;
+    }
+
+    .contenedor{
+        width: 100%;
+        background-color: #7f1c3b;
+        text-align: center;
+    }
+
+    .title-container{
+        color: white;
+        margin-top: 8px;
+    }
+
+    #seccionInstrucciones{
+        width: 100%;
+        margin-top: 24px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+    .card{
+        width: 50%;
+    }
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Oswald:wght@300;400;600&family=Work+Sans:ital,wght@0,100;0,500;1,200;1,300&display=swap"
+        rel="stylesheet">
     <title>Prueba Calibracion</title>
 </head>
+
 <body>
-    <h1>Calibracion</h1>
+    <div class="contenedor">
+        <!-- seccion de titulo -->
+        <section id="seccionTitle">
+            <div class="title-container">
+                <h1>Calibracion de Limites</h1>
+            </div>
+        </section>
+
+        <!-- seccion de instrucciones -->
+        <section id="seccionInstrucciones">
+            <div class="card text-center">
+                <div class="card-header">
+                    Instrucciones Calibracion
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Instrucciones</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <div class="card-botones">
+                        <a href="#" class="btn btn-primary">Salir</a>
+                        <a href="#" class="btn btn-primary">Sguiente</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+    </div>
+
 </body>
+
 </html>

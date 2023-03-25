@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+    html,
     body {
+        height: 100%;
         margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         background-color: #7f1c3b;
     }
 
     * {
-        font-family:  'Quicksand', sans-serif !important;
+        font-family: 'Quicksand', sans-serif !important;
     }
 
     img {
@@ -19,7 +24,7 @@
         height: 100%;
         background-color: #7f1c3b;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex-wrap: wrap;
     }
 
@@ -161,7 +166,7 @@
         align-items: center;
     }
 
-    #posicion-element p{
+    #posicion-element p {
         text-align: right;
     }
 
@@ -283,18 +288,21 @@
     }
 
     /*Media querias ajustar tamaño pantalla*/
+    @media only screen and (max-width: 2000px) {}
+
     @media only screen and (max-width: 800px) {
-        .card{
+        .card {
             width: 90%;
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
-        }  
-        #title-card-container{
+        }
+
+        #title-card-container {
             width: 100%;
             text-align: center;
-        }  
-  
+        }
+
     }
 </style>
 
@@ -352,19 +360,19 @@
                 <div id="posicion">
                     <div id="posicion-element">
                         <p>Temp</p>&nbsp &nbsp &nbsp &nbsp
-                        <label> 1480 </label>
+                        <input type="number"  id="txtTemp" value="1480" style="width: 80px; text-align: center;">
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Actual (Encoder)</p>&nbsp &nbsp
                         <div class="valores">
                             <div>
-                                <label> 1480 </label> &nbsp <p>PWM</p>
+                                <input type="number"  id="encoder_pwm" value="1480" style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
                             </div>
                             <div>
-                                <label> 1480 </label> &nbsp <p>mm</p>
+                                <input type="text"  id="encoder_mm" style="width: 65px; text-align: center;" readonly> &nbsp <p>mm</p>
                             </div>
                             <div>
-                                <label> 1480 </label> &nbsp <p>grados</p>
+                                <input type="text"  id="encoder_grados"  style="width: 65px; text-align: center;" readonly> &nbsp <p>grados</p>
                             </div>
                         </div>
 
@@ -373,19 +381,19 @@
                 <div id="posicion">
                     <div id="posicion-element">
                         <p>%Hum</p>&nbsp &nbsp
-                        <label> 1480 </label>
+                        <input type="number"  id="txtHum" value="1480" style="width: 80px; text-align: center;">
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Deseada Por Piloto</p>&nbsp &nbsp
                         <div class="valores">
                             <div>
-                                <label> 1480 </label> &nbsp <p>PWM</p>
+                                <input type="number"  id="piloto_pwm" value="1480" style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
                             </div>
                             <div>
-                                <label> 1480 </label> &nbsp <p>mm</p>
+                                <input type="text"  id="piloto_mm"  style="width: 65px; text-align: center;" readonly> &nbsp <p>mm</p>
                             </div>
                             <div>
-                                <label> 1480 </label> &nbsp <p>grados</p>
+                                <input type="text"  id="piloto_grados"  style="width: 65px; text-align: center;" readonly> &nbsp <p>grados</p>
                             </div>
                         </div>
 
@@ -440,7 +448,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <div>
                         <div class="form-group">
                             <input type="password" class="form-control" id="txtPassword" placeholder="Contraseña">
                         </div>
@@ -449,7 +457,7 @@
                         </div>
                         <button id="btn-Confirmar" type="button"
                             class="btn btn-info btn-block btn-round">Confirmar</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -468,6 +476,7 @@
     <script>
         $(document).ready(function () {
             var intervalID = setInterval(estatuSistema, 1000);
+            setInterval(obtenerLecturas,1000);
         });
 
         //***variables***
@@ -487,6 +496,7 @@
         let btnReinicioSistem = document.getElementById("btnReinicioSistem");
         let btnConfirmarPassword = document.getElementById("btn-Confirmar");
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+        var div = document.getElementById("liveAlertPlaceholder");
 
 
         //***funciones***
@@ -522,8 +532,17 @@
                     let moverBabor = confirm("¿Desea mover a BABOR?");
                     if (moverBabor) {
                         estadoEstribor = false;
+                        estadoReinicioSistema = false;
+                        estadoCalibracion = false;
                         estadoBabor = true;
-                        abrirModalPassword();
+
+                        alerta('Direccion correcta a Babor!', 'success');
+                        setTimeout(() => {
+                            div.innerHTML = '';
+                        }, "5000");
+                        estadoDireccion.textContent = "Moviendo a BABOR";
+                        estadoBabor = false;
+
                     } else {
                         estadoBabor = false;
                     }
@@ -532,8 +551,15 @@
                     let moverEstribor = confirm("¿Desea mover a ESTRIBOR?");
                     if (moverEstribor) {
                         estadoBabor = false;
+                        estadoReinicioSistema = false;
+                        estadoCalibracion = false;
                         estadoEstribor = true;
-                        abrirModalPassword();
+                        alerta('Direccion correcta a Estribor!', 'success');
+                        setTimeout(() => {
+                            div.innerHTML = '';
+                        }, "5000");
+                        estadoDireccion.textContent = "Moviendo a ESTRIBOR";
+                        estadoEstribor = false;
                     } else {
                         estadoEstribor = false;
                     }
@@ -547,10 +573,20 @@
         //Evento click para brir el modal de contraseña y verificar si es valida
         btnCalibacrionLim.addEventListener("click", function () {
             estadoCalibracion = true;
-            abrirModalPassword();
+            estadoReinicioSistema = false;
+            estadoEstribor = false;
+            estadoBabor = false;
+            let isCalibracionLim = confirm("¿Desea cambiar a Calibracion de Limites?");
+            if (isCalibracionLim) {
+                abrirModalPassword();
+            }
+
         });
         btnReinicioSistem.addEventListener("click", function () {
             estadoReinicioSistema = true;
+            estadoCalibracion = false;
+            estadoEstribor = false;
+            estadoBabor = false;
             abrirModalPassword();
         });
 
@@ -569,11 +605,13 @@
             password = document.getElementById("txtPassword").value;
             if (password === "123") {
                 myModal.hide();
-                var div = document.getElementById("liveAlertPlaceholder");
                 if (estadoCalibracion) {
                     //TODO Calibracion
-                    estadoCalibracion = false;
-                    window.location.assign("./calibracionView.html");
+                    let isCalibracionLim = confirm("¿Seguro que desea cambiar a Calibracion de Limites?");
+                    if (isCalibracionLim) {
+                        estadoCalibracion = false;
+                        window.location.assign("./calibracionView.html");
+                    }
                 }
                 if (estadoReinicioSistema) {
                     //TODO reinicio de sistema
@@ -582,25 +620,9 @@
                     estadoDireccion.textContent = "...";
                     alerta('Se reinicio correctamente el sistema!', 'success');
                     setTimeout(() => {
-                       div.innerHTML = '';
+                        div.innerHTML = '';
                     }, "5000");
                     estadoReinicioSistema = false;
-                }
-                if (estadoBabor) {
-                    alerta('Direccion correcta a Babor!', 'success');
-                    setTimeout(() => {
-                       div.innerHTML = '';
-                    }, "5000");
-                    estadoDireccion.textContent = "Moviendo a BABOR";
-                    estadoBabor = false;
-                }
-                if (estadoEstribor) {
-                    alerta('Direccion correcta a Estribor!', 'success');
-                    setTimeout(() => {
-                       div.innerHTML = '';
-                    }, "5000");
-                    estadoDireccion.textContent = "Moviendo a ESTRIBOR";
-                    estadoEstribor = false;
                 }
             } else {
                 alertPassword.setAttribute("style", "display: block;");
@@ -611,7 +633,7 @@
         btnConfirmarPassword.onclick = validarPassword;
 
 
-
+        //funcion que implementa los estados de cada regulacion de la pagina y las ejecuta cada segundo
         function estatuSistema() {
             areaSistema = document.getElementById("area");
             areaSistema.value = " ";
@@ -619,11 +641,13 @@
             setTimeout(() => {
                 let statusInicioSistema = estatusInicioSistema();
                 let statusModalidad = estatusModalidad();
-                areaSistema.value += "\nEsperando órdenes...";
+                let statusDireccionSis = estatusDireccion();
+                
             }, "1000");
         }
 
-
+        //funcion que verifica si la pagina cargo correctamente
+        //**en este caso se espera que se implemente lo de arduino, si en la programacion del arduino es correcto entonces implementar codigo.**
         function estatusInicioSistema() {
             let cargaExitosa = "OK";
             areaSistema.value = "Inicializando sistema...";
@@ -632,6 +656,7 @@
 
         }
 
+        //Funcion que implementa en que modalidad esta el sistema para imprimirlo en el cuadro de ESTADO DEL SISTEMA
         function estatusModalidad() {
             if (estadoModalidad.value == "") {
                 estadoModalidad.textContent = "Esperando...";
@@ -643,8 +668,15 @@
             }
         }
 
-        function estatusDireccion(){
-
+        //Funcion que implementa en que direccion se encuentra el sistema para imprimirlo en el cuadro de ESTADO DEL SISTEMA
+        function estatusDireccion() {
+            if (estadoDireccion.textContent == "...") {
+                areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                return false;
+            } else {
+                areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                return true;
+            }
         }
 
         //Se crea la funcion alerta para mostrar mensaje de babor o estribor correctamente.
@@ -659,6 +691,54 @@
 
             alertPlaceholder.append(wrapper)
         }
+
+
+        //funciones de lecturas
+        function obtenerLecturas(){
+            setTimeout(() => {
+                areaSistema.value += "\nArea de Lecturas...";
+                obtenerEncode();
+                obtenerPiloto();
+                areaSistema.value += "\nEsperando órdenes...";
+            }, "1000");
+        }
+        
+        function obtenerEncode(){
+            //TODO faltan funciones para obtener temp y el pwm desde el arduino
+            let temp = document.getElementById("txtTemp").value;
+            let encoderPWM = document.getElementById("encoder_pwm").value;
+            let encoderMM = document.getElementById("encoder_mm");
+            let encoderGrados = document.getElementById("encoder_grados");
+            let mm = parseInt(temp,10)+ parseInt(encoderPWM,10);
+            let grados = parseInt(temp,10) / parseInt(mm,10);
+            encoderMM.value = mm;
+            encoderGrados.value = grados;
+            if(mm != null || grados != null){
+                areaSistema.value += "\nEncoder: OK";
+            }else{
+                areaSistema.value += "\nEncoder: Error";
+            }
+            
+        }
+
+        function obtenerPiloto(){
+             //TODO faltan funciones para obtener la Hum y el pwm desde el arduino
+            let Hum = document.getElementById("txtHum").value;
+            let pilotoPWM = document.getElementById("piloto_pwm").value;
+            let pilotoMM = document.getElementById("piloto_mm");
+            let pilotoGrados = document.getElementById("piloto_grados");
+            let mm = parseInt(Hum,10) - parseInt(pilotoPWM,10);
+            let grados = parseInt(Hum,10) * parseInt(mm,10);
+            pilotoMM.value = mm;
+            pilotoGrados.value = grados;
+            if(mm != null || grados != null){
+                areaSistema.value += "\nPiloto: OK";
+            }else{
+                areaSistema.value += "\nPiloto: Error";
+            }
+        }
+
+        
     </script>
 </body>
 
