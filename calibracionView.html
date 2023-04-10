@@ -16,26 +16,97 @@
         font-family: 'Quicksand', sans-serif !important;
     }
 
-    .contenedor{
+    .contenedor {
         width: 100%;
         background-color: #7f1c3b;
         text-align: center;
     }
 
-    .title-container{
+    .title-container {
         color: white;
         margin-top: 8px;
     }
 
-    #seccionInstrucciones{
+    #seccionInstrucciones {
         width: 100%;
         margin-top: 24px;
         text-align: center;
         display: flex;
         justify-content: center;
     }
-    .card{
-        width: 50%;
+
+    .card {
+        width: 80%;
+    }
+
+    .text_negrita_sub {
+        text-decoration: overline;
+    }
+
+    .btn {
+        font-size: 16px !important;
+    }
+
+    .card_paso1,
+    .card_paso2,
+    .card_paso3,
+    .card_paso4 {
+        display: none !important;
+    }
+
+    .img-container {
+        width: 33%;
+    }
+
+    .logo-img {
+        width: 103px;
+    }
+
+    .title-container {
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+        display: flex;
+    }
+
+    img {
+        border-radius: 100%;
+    }
+
+    .imagenes {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .card-texto {
+        margin-top: 16px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .card-text {
+        text-align: justify;
+        padding: 16px;
+        width: 80%;
+    }
+
+    .boton_principal {
+        margin: 16px 0 16px 0;
+    }
+    .alert_succes{
+        width: 100%;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .body_alert_succes{
+        width: 40%;
+    }
+
+    #alert_succes1{
+        display: none;
     }
 </style>
 
@@ -51,6 +122,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Courgette&family=Oswald:wght@300;400;600&family=Work+Sans:ital,wght@0,100;0,500;1,200;1,300&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <title>Prueba Calibracion</title>
 </head>
 
@@ -59,31 +131,367 @@
         <!-- seccion de titulo -->
         <section id="seccionTitle">
             <div class="title-container">
-                <h1>Calibracion de Limites</h1>
+                <div class="img-container">
+                    <img class="logo-img" src="./img/ANGUILA.jpg">
+                </div>
+                <div>
+                    <h1 style="margin-top: 20px;">
+                        Calibración de Limites
+                    </h1>
+                </div>
+                <div class="img-container">
+                    <img class="logo-img" src="./img/UNINDETEC.png" style="margin-right: 20px;">
+                    <img class="logo-img" src="./img/Secretaria de marina Armada de Mexico.png" alt="">
+                </div>
             </div>
         </section>
 
         <!-- seccion de instrucciones -->
         <section id="seccionInstrucciones">
-            <div class="card text-center">
+            <!-- precaucion -->
+            <div class="card text-center card_precaucion" id="card_precaucion">
                 <div class="card-header">
                     Instrucciones Calibracion
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Instrucciones</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title">PRECAUCIÓN</h5>
+                    <p style="color: #FFC107;font-size: 65px;margin: 0;"><i class="bi bi-shield-exclamation"></i></p>
+                    <div class="imagenes">
+                        <img class="logo-img" src="./img/calib-img-1.PNG" alt="">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-2.PNG">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-3.PNG">
+                    </div>
+                    <div class="card-texto" style="width: 100%; display: flex; justify-content: center;">
+                        <p class="card-text" style="text-align: justify; padding: 16px; width: 80%;">
+                            Este apartado debe ser usado únicamente por personal capacitado por el personal del
+                            Subsistema
+                            de Control Autónomo, de no ser asi, puede llegar a dañar permanentemente el sistema de
+                            motores
+                            de la embarcación. Esta calibración debe ser realizada en tierra, <strong
+                                style="text-decoration: underline;">NO entre a esta configuración
+                                si la embarcación se encuentra en el agua.</strong> Si decide continuar, por favor
+                            seleccione CONTINUAR,
+                            de lo contrario seleccione SALIR.
+                        </p>
+                    </div>
+
                     <div class="card-botones">
-                        <a href="#" class="btn btn-primary">Salir</a>
-                        <a href="#" class="btn btn-primary">Sguiente</a>
+                        <a class="btn btn-danger" id="btn_salirPrecaucion" href="./index.html"><i
+                                class="bi bi-box-arrow-left"></i> Salir</a>
+                        <a href="#" class="btn btn-success" onclick="CambiarPaso1()"><i
+                                class="bi bi-box-arrow-right"></i> Siguiente</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 1 -->
+            <div class="card text-center card_paso1" id="card_paso1">
+                <div class="card-header">
+                    Instrucciones Calibracion
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">PASO 1: Ajustar CENTRO</h5>
+                    <p style="color: #FFC107;font-size: 65px;margin: 0;"><i class="bi bi-1-circle"></i></p>
+                    <div class="imagenes">
+                        <img class="logo-img" src="./img/calib-img-1.PNG" alt="">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-2.PNG">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-3.PNG">
+                    </div>
+                    <div class="card-texto">
+                        <p class="card-text">
+                            Por favor ponga los motores en modo LOCAL y con ayuda de la palanca de mando muévalos hasta
+                            que
+                            se encuentren centrados. cuando completes la instrucción,
+                            anote el valor de POSICIÓN ACTUAL que indique la caja indicadora con la leyenda "Centro de
+                            motores" y presione AJUSTAR CENTRO.
+                        </p>
+                    </div>
+                    <div class="boton_principal">
+                        <a class="btn btn-primary" onclick="ajustarCentro()"><i class="bi bi-arrows-fullscreen"></i> Ajustar CENTRO</a>
+                        <div class="alert_succes" id="alert_succes1">
+                            <div class="alert alert-success d-flex align-items-center body_alert_succes" role="alert">
+                                <div style="text-align: center; width: 100%;">
+                                    <i class="bi bi-check-circle"></i> CENTRO AJUSTADO Presione siguiente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-botones">
+                        <a class="btn btn-danger" id="btn_salirPrecaucion" onclick="SalirCalibracion(true)"><i
+                                class="bi bi-backspace"></i> Salir</a>
+                        <a href="#" class="btn btn-warning" onclick="CambiarPrecaucion()"><i
+                                class="bi bi-box-arrow-left"></i> Regresar</a>
+                        <a href="#" class="btn btn-success" onclick="CambiarPaso2()"><i
+                                class="bi bi-box-arrow-right"></i> Siguiente</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- paso2 -->
+            <div class="card text-center card_paso2" id="card_paso2">
+                <div class="card-header">
+                    Instrucciones Calibracion
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">PASO 2: Ajustar BABOR</h5>
+                    <p style="color: #FFC107;font-size: 65px;margin: 0;"><i class="bi bi-2-circle"></i></p>
+                    <div class="imagenes">
+                        <img class="logo-img" src="./img/calib-img-1.PNG" alt="">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-2.PNG">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-3.PNG">
+                    </div>
+                    <div class="card-texto">
+                        <p class="card-text">
+                            Con ayuda de la palanca de mano, por favor mueva los motores en dirección a <strong
+                                style="text-decoration: underline;">ESTRIBOR</strong>
+                            (esto es porque la embarcación gira en sentido contrario) hasta que vea que el pistón del
+                            motor
+                            de dirección llegue a su limite visual
+                            y físico disponible. Cuando complete la instrucción, anote el valor de POSICIÓN ACTUAL que
+                            indique la caja indicadora con la leyenda "Límite Babor"
+                            y presione AJUSTAR BABOR.
+                        </p>
+                    </div>
+                    <div class="boton_principal">
+                        <a class="btn btn-primary" onclick="ajustarBABOR()"><i class="bi bi-arrow-bar-left"></i> Ajustar BABOR</a>
+                        <div class="alert_succes" id="alert_succes2">
+                            <div class="alert alert-success d-flex align-items-center body_alert_succes" role="alert">
+                                <div style="text-align: center; width: 100%;">
+                                    <i class="bi bi-check-circle"></i> BABOR AJUSTADO Presione siguiente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-botones">
+                        <a class="btn btn-danger" id="btn_salirPrecaucion" onclick="SalirCalibracion(true)"><i
+                                class="bi bi-backspace"></i> Salir</a>
+                        <a href="#" class="btn btn-warning" onclick="CambiarPaso1()"><i
+                                class="bi bi-box-arrow-left"></i> Regresar</a>
+                        <a href="#" class="btn btn-success" onclick="CambiarPaso3()"><i
+                                class="bi bi-box-arrow-right"></i> Siguiente</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- paso3 -->
+            <div class="card text-center card_paso3" id="card_paso3">
+                <div class="card-header">
+                    Instrucciones Calibracion
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">PASO 3: Ajustar ESTRIBOR</h5>
+                    <p style="color: #FFC107;font-size: 65px;margin: 0;"><i class="bi bi-3-circle"></i></p>
+                    <div class="imagenes">
+                        <img class="logo-img" src="./img/calib-img-1.PNG" alt="">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-2.PNG">
+                        <i class="bi bi-arrow-right-short" style="font-size: 90px;"></i>
+                        <img class="logo-img" src="./img/calib-img-3.PNG">
+                    </div>
+                    <div class="card-texto">
+                        <p class="card-text">
+                            Con ayuda de la palanca de mando, por favor mueva los motores en dirección a <strong
+                                style="text-decoration: underline;">BABOR</strong>
+                            (esto es porque la embarcación gira en sentido contrario) hasta que vea que el pistón del
+                            motor
+                            de dirección llegue a su límite
+                            visual y físico dispinible. Cuando complete la instrucción anote el valor de la POSICIÓN
+                            ACTUAL
+                            que indique la caja indicadora
+                            con la leyenda "Limite Estribor" y presione AJUSTAR ESTRIBOR.
+                        </p>
+                    </div>
+                    <div class="boton_principal">
+                        <a class="btn btn-primary" onclick="ajustarEstribor()"><i class="bi bi-arrow-bar-right"></i> Ajustar ESTRIBOR</a>
+                        <div class="alert_succes" id="alert_succes3">
+                            <div class="alert alert-success d-flex align-items-center body_alert_succes" role="alert">
+                                <div style="text-align: center; width: 100%;">
+                                    <i class="bi bi-check-circle"></i> ESTRIBOR AJUSTADO Presione siguiente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-botones">
+                        <a class="btn btn-danger" id="btn_salirPrecaucion" onclick="SalirCalibracion(true)"><i
+                                class="bi bi-backspace"></i> Salir</a>
+                        <a class="btn btn-warning" onclick="CambiarPaso2()"><i class="bi bi-box-arrow-left"></i>
+                            Regresar</a>
+                        <a class="btn btn-success" onclick="CambiarPaso4()"><i class="bi bi-box-arrow-right"></i>
+                            Siguiente</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- paso 4 -->
+            <div class="card text-center card_paso4" id="card_paso4">
+                <div class="card-header">
+                    Instrucciones Calibracion
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">PASO 4: CONFIRMACIÓN</h5>
+                    <p style="color: #FFC107;font-size: 65px;margin: 0;"><i class="bi bi-4-circle"></i></p>
+                    <div class="card-texto">
+                        <p class="card-text">
+                            Con ayuda de la palanca de mando, por favor mueva los motores en las dos direcciones(BABOR y
+                            ESTRIBOR) para comprobar que los
+                            límites fueron establecidos correctamente. Luego, pase el sistema a modo REMOTO para
+                            comprobar
+                            que el ajuste de CENTRO se haya
+                            establecido correctamente. En caso de que algun limite no se haya establecido correctamente
+                            presionar el botón correspondiente
+                            para un reajuste o presione SALIR para regresar a la página principal.
+                        </p>
+                    </div>
+                    
+                    <div class="card-botones">
+                        <a class="btn btn-danger" id="btn_salirPrecaucion" onclick="SalirCalibracion()"><i
+                                class="bi bi-box-arrow-left"></i> Salir</a>
+                        <a class="btn btn-primary" onclick="CambiarPaso1()"><i class="bi bi-arrows-fullscreen"></i>
+                            Ajustar CENTRO</a>
+                        <a class="btn btn-primary" onclick="CambiarPaso2()"><i class="bi bi-arrow-bar-left"></i> Ajustar
+                            BABOR</a>
+                        <a class="btn btn-primary" onclick="CambiarPaso3()"><i class="bi bi-arrow-bar-right"></i>
+                            Ajustar ESTRIBOR</a>
                     </div>
                 </div>
             </div>
         </section>
-
-
-
-
     </div>
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        const btnSalir = document.getElementById("btn_salirPrecaucion");
+
+
+        function SalirCalibracion(textoLargo = false) {
+            let isSalir = "";
+            if (textoLargo) {
+                isSalir = confirm("Si deja el proceso de calibración a medias el sistema puede verse afectado y no funcionar correctamente.Si aun asi desea salir seleccione ACEPTAR; De lo contrario seleccione CANCELAR.");
+                if (isSalir) {
+                    window.location.assign("./index.html");
+                }
+            } else {
+                isSalir = confirm("¿Desea salir de la vista Calibración de Limites?");
+                if (isSalir) {
+                    window.location.assign("./index.html");
+                }
+            }
+
+
+
+
+        }
+
+        function CambiarPaso1() {
+            const card_precaucion = document.getElementById("card_precaucion");
+            const card_paso1 = document.getElementById("card_paso1");
+            const card_paso2 = document.getElementById("card_paso2");
+            const card_paso4 = document.getElementById("card_paso4");
+
+            card_precaucion.setAttribute("style", "display: none;");
+            card_paso2.setAttribute("style", "display: none;");
+            card_paso4.setAttribute("style", "display: none;");
+            card_paso1.setAttribute("style", "display: block!important;");
+        }
+
+        function CambiarPrecaucion() {
+            const card_precaucion = document.getElementById("card_precaucion");
+            const card_paso1 = document.getElementById("card_paso1");
+            const alertSucces = document.getElementById("alert_succes1");
+
+            card_paso1.setAttribute("style", "display: none;");
+            alertSucces.setAttribute("style","display: none");
+            card_precaucion.setAttribute("style", "display: block!important;");
+        }
+
+        function CambiarPaso2() {
+            const card_paso2 = document.getElementById("card_paso2");
+            const card_paso1 = document.getElementById("card_paso1");
+            const card_paso3 = document.getElementById("card_paso3");
+            const card_paso4 = document.getElementById("card_paso4");
+            const alertSucces = document.getElementById("alert_succes1");
+
+            const alertSucces2 = document.getElementById("alert_succes2");
+            alertSucces2.setAttribute("style","display: none;");
+
+            const alertSucces3 = document.getElementById("alert_succes3");
+            alertSucces3.setAttribute("style","display: none");
+
+            card_paso1.setAttribute("style", "display: none;");
+            card_paso3.setAttribute("style", "display: none;");
+            card_paso4.setAttribute("style", "display: none;");
+            alertSucces.setAttribute("style","display: none");
+            card_paso2.setAttribute("style", "display: block!important;");
+        }
+
+        function CambiarPaso3() {
+            const card_precaucion = document.getElementById("card_precaucion");
+            const card_paso1 = document.getElementById("card_paso1");
+            const card_paso2 = document.getElementById("card_paso2");
+            const card_paso3 = document.getElementById("card_paso3");
+            const card_paso4 = document.getElementById("card_paso4");
+
+            const alertSucces2 = document.getElementById("alert_succes2");
+            alertSucces2.setAttribute("style","display: flex !important;");
+
+            card_precaucion.setAttribute("style", "display: none;");
+            card_paso1.setAttribute("style", "display: none;");
+            card_paso2.setAttribute("style", "display: none;");
+            card_paso4.setAttribute("style", "display: none;");
+            card_paso3.setAttribute("style", "display: block!important;");
+        }
+
+        function CambiarPaso4() {
+            const card_precaucion = document.getElementById("card_precaucion");
+            const card_paso1 = document.getElementById("card_paso1");
+            const card_paso2 = document.getElementById("card_paso2");
+            const card_paso3 = document.getElementById("card_paso3");
+            const card_paso4 = document.getElementById("card_paso4");
+
+            const alertSucces3 = document.getElementById("alert_succes3");
+            alertSucces3.setAttribute("style","display: none;");
+
+            card_precaucion.setAttribute("style", "display: none;");
+            card_paso1.setAttribute("style", "display: none;");
+            card_paso2.setAttribute("style", "display: none;");
+            card_paso3.setAttribute("style", "display: none;");
+            card_paso4.setAttribute("style", "display: block!important;");
+        }
+
+
+        function ajustarCentro(){
+            let isCentroAjustado = true;
+            if (isCentroAjustado) {
+                const alertSucces = document.getElementById("alert_succes1");
+                alertSucces.setAttribute("style","display: flex !important;");
+            }
+        }
+
+        function ajustarBABOR(){
+            let isBaborAjustado = true;
+            if (isBaborAjustado) {
+                const alertSucces2 = document.getElementById("alert_succes2");
+                alertSucces2.setAttribute("style","display: flex !important;");
+            }
+        }
+
+        function ajustarEstribor(){
+            let isBaborAjustado = true;
+            if (isBaborAjustado) {
+                const alertSucces3 = document.getElementById("alert_succes3");
+                alertSucces3.setAttribute("style","display: flex !important;");
+            }
+        }
+    </script>
 
 </body>
 

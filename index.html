@@ -35,8 +35,9 @@
     #title-container {
         width: 100%;
         text-align: center;
-        padding: 10px 30px 0 30px;
+        padding: 10px 10px 0 10px;
         margin-bottom: 60px !important;
+        display: flex;
     }
 
     #title-container h2 {
@@ -257,8 +258,8 @@
     }
 
     /* botones modalidad */
-    #manual,
-    #Autonomo {
+    #local,
+    #remoto {
         height: 80px;
         width: 180px;
         font-size: 18px;
@@ -326,11 +327,18 @@
 <body>
     <div id="principal">
         <div id="title-container">
+            <div class="img-container">
+                <img class="logo-img" src="./img/ANGUILA.jpg">               
+            </div>
             <div>
                 <h2>
                     Vehiculo Modular Acuatico Para Barimetria En Aguas Someras
                 </h2>
                 <h2>ANGUILA 1.0</h2>
+            </div>
+            <div class="img-container">
+                <img class="logo-img" src="./img/UNINDETEC.png" style="margin-right: 20px;">
+                <img class="logo-img" src="./img/Secretaria de marina Armada de Mexico.png" alt="">
             </div>
         </div>
         <!-- Alert para mover a estribor y babor -->
@@ -342,10 +350,9 @@
                     <h2>CAMBIO DE MODALIDAD</h2>
                 </div>
                 <div class="button-container">
-                    <button id="manual" class="buttons btn-modalidad"
-                        onclick="cambiarModalidad('manual')">MANUAL</button>
-                    <button id="Autonomo" class="buttons btn-modalidad"
-                        onclick="cambiarModalidad('autonomo')">AUTÓNOMO</button>
+                    <button id="local" class="buttons btn-modalidad" onclick="cambiarModalidad('local')">LOCAL</button>
+                    <button id="remoto" class="buttons btn-modalidad"
+                        onclick="cambiarModalidad('remoto')">REMOTO</button>
                 </div>
                 <div id="estado">
                     <h3>ESTADO ACTUAL:</h3>
@@ -360,19 +367,22 @@
                 <div id="posicion">
                     <div id="posicion-element">
                         <p>Temp</p>&nbsp &nbsp &nbsp &nbsp
-                        <input type="number"  id="txtTemp" value="1480" style="width: 80px; text-align: center;">
+                        <input type="number" id="txtTemp" value="1480" style="width: 80px; text-align: center;">
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Actual (Encoder)</p>&nbsp &nbsp
                         <div class="valores">
                             <div>
-                                <input type="number"  id="encoder_pwm" value="1480" style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
+                                <input type="number" id="encoder_pwm" value="1480"
+                                    style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
                             </div>
                             <div>
-                                <input type="text"  id="encoder_mm" style="width: 65px; text-align: center;" readonly> &nbsp <p>mm</p>
+                                <input type="text" id="encoder_mm" style="width: 65px; text-align: center;" readonly>
+                                &nbsp <p>mm</p>
                             </div>
                             <div>
-                                <input type="text"  id="encoder_grados"  style="width: 65px; text-align: center;" readonly> &nbsp <p>grados</p>
+                                <input type="text" id="encoder_grados" style="width: 65px; text-align: center;"
+                                    readonly> &nbsp <p>grados</p>
                             </div>
                         </div>
 
@@ -381,19 +391,22 @@
                 <div id="posicion">
                     <div id="posicion-element">
                         <p>%Hum</p>&nbsp &nbsp
-                        <input type="number"  id="txtHum" value="1480" style="width: 80px; text-align: center;">
+                        <input type="number" id="txtHum" value="1480" style="width: 80px; text-align: center;">
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Deseada Por Piloto</p>&nbsp &nbsp
                         <div class="valores">
                             <div>
-                                <input type="number"  id="piloto_pwm" value="1480" style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
+                                <input type="number" id="piloto_pwm" value="1480"
+                                    style="width: 65px; text-align: center;"> &nbsp <p>PWM</p>
                             </div>
                             <div>
-                                <input type="text"  id="piloto_mm"  style="width: 65px; text-align: center;" readonly> &nbsp <p>mm</p>
+                                <input type="text" id="piloto_mm" style="width: 65px; text-align: center;" readonly>
+                                &nbsp <p>mm</p>
                             </div>
                             <div>
-                                <input type="text"  id="piloto_grados"  style="width: 65px; text-align: center;" readonly> &nbsp <p>grados</p>
+                                <input type="text" id="piloto_grados" style="width: 65px; text-align: center;" readonly>
+                                &nbsp <p>grados</p>
                             </div>
                         </div>
 
@@ -467,16 +480,16 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
         integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
-    </script>
+        </script>
 
     <!-- Funciones JS -->
     <script>
         $(document).ready(function () {
             var intervalID = setInterval(estatuSistema, 1000);
-            setInterval(obtenerLecturas,1000);
+            setInterval(obtenerLecturas, 1000);
         });
 
         //***variables***
@@ -504,18 +517,18 @@
         //Funcion que cambia la modalidad de manual a autonomo o viseverza
         function cambiarModalidad(tipoModalidad) {
             switch (tipoModalidad) {
-                case 'manual':
-                    let isManual = confirm("¿Desea cambiar a modalidad Manual?");
+                case 'local':
+                    let isManual = confirm("¿Desea cambiar a modalidad Local?");
                     if (isManual) {
-                        estadoModalidad.value = "MANUAL";
-                        estadoModalidad.textContent = "MANUAL";
+                        estadoModalidad.value = "LOCAL";
+                        estadoModalidad.textContent = "LOCAL";
                     }
                     break;
-                case 'autonomo':
-                    let isAutonomo = confirm("¿Desea cambiar a modalidad Autonomo?");
+                case 'remoto':
+                    let isAutonomo = confirm("¿Desea cambiar a modalidad Remoto?");
                     if (isAutonomo) {
-                        estadoModalidad.value = "AUTONOMO";
-                        estadoModalidad.textContent = "AUTONOMO";
+                        estadoModalidad.value = "REMOTO";
+                        estadoModalidad.textContent = "REMOTO";
                     }
                     break;
                 default:
@@ -615,14 +628,17 @@
                 }
                 if (estadoReinicioSistema) {
                     //TODO reinicio de sistema
-                    estatuSistema();
-                    estadoModalidad.value = "";
-                    estadoDireccion.textContent = "...";
-                    alerta('Se reinicio correctamente el sistema!', 'success');
-                    setTimeout(() => {
-                        div.innerHTML = '';
-                    }, "5000");
-                    estadoReinicioSistema = false;
+                    let isReiniciarSistema = confirm("¿Seguro que desea reiniciar el sistema?");
+                    if (isReiniciarSistema) {
+                        estatuSistema();
+                        estadoModalidad.value = "";
+                        estadoDireccion.textContent = "...";
+                        alerta('Se reinicio correctamente el sistema!', 'success');
+                        setTimeout(() => {
+                            div.innerHTML = '';
+                        }, "5000");
+                        estadoReinicioSistema = false;
+                    }
                 }
             } else {
                 alertPassword.setAttribute("style", "display: block;");
@@ -642,7 +658,7 @@
                 let statusInicioSistema = estatusInicioSistema();
                 let statusModalidad = estatusModalidad();
                 let statusDireccionSis = estatusDireccion();
-                
+
             }, "1000");
         }
 
@@ -694,7 +710,7 @@
 
 
         //funciones de lecturas
-        function obtenerLecturas(){
+        function obtenerLecturas() {
             setTimeout(() => {
                 areaSistema.value += "\nArea de Lecturas...";
                 obtenerEncode();
@@ -702,43 +718,43 @@
                 areaSistema.value += "\nEsperando órdenes...";
             }, "1000");
         }
-        
-        function obtenerEncode(){
+
+        function obtenerEncode() {
             //TODO faltan funciones para obtener temp y el pwm desde el arduino
             let temp = document.getElementById("txtTemp").value;
             let encoderPWM = document.getElementById("encoder_pwm").value;
             let encoderMM = document.getElementById("encoder_mm");
             let encoderGrados = document.getElementById("encoder_grados");
-            let mm = parseInt(temp,10)+ parseInt(encoderPWM,10);
-            let grados = parseInt(temp,10) / parseInt(mm,10);
+            let mm = parseInt(temp, 10) + parseInt(encoderPWM, 10);
+            let grados = parseInt(temp, 10) / parseInt(mm, 10);
             encoderMM.value = mm;
             encoderGrados.value = grados;
-            if(mm != null || grados != null){
+            if (mm != null || grados != null) {
                 areaSistema.value += "\nEncoder: OK";
-            }else{
+            } else {
                 areaSistema.value += "\nEncoder: Error";
             }
-            
+
         }
 
-        function obtenerPiloto(){
-             //TODO faltan funciones para obtener la Hum y el pwm desde el arduino
+        function obtenerPiloto() {
+            //TODO faltan funciones para obtener la Hum y el pwm desde el arduino
             let Hum = document.getElementById("txtHum").value;
             let pilotoPWM = document.getElementById("piloto_pwm").value;
             let pilotoMM = document.getElementById("piloto_mm");
             let pilotoGrados = document.getElementById("piloto_grados");
-            let mm = parseInt(Hum,10) - parseInt(pilotoPWM,10);
-            let grados = parseInt(Hum,10) * parseInt(mm,10);
+            let mm = parseInt(Hum, 10) - parseInt(pilotoPWM, 10);
+            let grados = parseInt(Hum, 10) * parseInt(mm, 10);
             pilotoMM.value = mm;
             pilotoGrados.value = grados;
-            if(mm != null || grados != null){
+            if (mm != null || grados != null) {
                 areaSistema.value += "\nPiloto: OK";
-            }else{
+            } else {
                 areaSistema.value += "\nPiloto: Error";
             }
         }
 
-        
+
     </script>
 </body>
 
