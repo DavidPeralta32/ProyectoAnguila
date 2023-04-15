@@ -199,7 +199,6 @@
 
     #area {
         width: 100%;
-        margin-right: 20px;
         height: 100%;
     }
 
@@ -328,7 +327,7 @@
     <div id="principal">
         <div id="title-container">
             <div class="img-container">
-                <img class="logo-img" src="./img/ANGUILA.jpg">               
+                <img class="logo-img" src="./img/ANGUILA.jpg">
             </div>
             <div>
                 <h2>
@@ -439,7 +438,8 @@
                     <h2>ESTADO DEL SISTEMA</h2>
                 </div>
                 <div id="div-area">
-                    <textarea id="area" readonly></textarea>
+                    <textarea id="area" readonly style="overflow: scroll;">
+                    </textarea>
                 </div>
             </div>
 
@@ -488,14 +488,14 @@
     <!-- Funciones JS -->
     <script>
         $(document).ready(function () {
-            var intervalID = setInterval(estatuSistema, 1000);
-            setInterval(obtenerLecturas, 1000);
+
+            estatusInicioSistema();
         });
 
         //***variables***
         var myModal;
         let password;
-        let areaSistema;
+        let areaSistema = document.getElementById("area");;
         let estadoReinicioSistema = false;
         let estadoCalibracion = false;
         let estadoBabor = false;
@@ -522,6 +522,7 @@
                     if (isManual) {
                         estadoModalidad.value = "LOCAL";
                         estadoModalidad.textContent = "LOCAL";
+                        estatusModalidad();
                     }
                     break;
                 case 'remoto':
@@ -529,10 +530,12 @@
                     if (isAutonomo) {
                         estadoModalidad.value = "REMOTO";
                         estadoModalidad.textContent = "REMOTO";
+                        estatusModalidad();
                     }
                     break;
                 default:
                     estadoModalidad.textContent = "Esperando...";
+                    estatusModalidad();
                     break;
             }
         }
@@ -555,7 +558,7 @@
                         }, "5000");
                         estadoDireccion.textContent = "Moviendo a BABOR";
                         estadoBabor = false;
-
+                        estatusDireccion();
                     } else {
                         estadoBabor = false;
                     }
@@ -573,6 +576,7 @@
                         }, "5000");
                         estadoDireccion.textContent = "Moviendo a ESTRIBOR";
                         estadoEstribor = false;
+                        estatusDireccion();
                     } else {
                         estadoEstribor = false;
                     }
@@ -580,7 +584,6 @@
                 default:
                     break;
             }
-            estatuSistema();
         }
 
         //Evento click para brir el modal de contraseña y verificar si es valida
@@ -630,13 +633,13 @@
                     //TODO reinicio de sistema
                     let isReiniciarSistema = confirm("¿Seguro que desea reiniciar el sistema?");
                     if (isReiniciarSistema) {
-                        estatuSistema();
                         estadoModalidad.value = "";
                         estadoDireccion.textContent = "...";
                         alerta('Se reinicio correctamente el sistema!', 'success');
                         setTimeout(() => {
                             div.innerHTML = '';
                         }, "5000");
+                        estatusInicioSistema();
                         estadoReinicioSistema = false;
                     }
                 }
@@ -649,24 +652,12 @@
         btnConfirmarPassword.onclick = validarPassword;
 
 
-        //funcion que implementa los estados de cada regulacion de la pagina y las ejecuta cada segundo
-        function estatuSistema() {
-            areaSistema = document.getElementById("area");
-            areaSistema.value = " ";
-
-            setTimeout(() => {
-                let statusInicioSistema = estatusInicioSistema();
-                let statusModalidad = estatusModalidad();
-                let statusDireccionSis = estatusDireccion();
-
-            }, "1000");
-        }
-
         //funcion que verifica si la pagina cargo correctamente
         //**en este caso se espera que se implemente lo de arduino, si en la programacion del arduino es correcto entonces implementar codigo.**
         function estatusInicioSistema() {
             let cargaExitosa = "OK";
-            areaSistema.value = "Inicializando sistema...";
+            areaSistema.value = "";
+            areaSistema.value += "\nInicializando sistema...";
             areaSistema.value += "\nInicio " + cargaExitosa;
             return true;
 
@@ -678,7 +669,10 @@
                 estadoModalidad.textContent = "Esperando...";
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent;
                 return false;
-            } else {
+            } else if (estadoModalidad.value == "LOCAL") {
+                areaSistema.value += "\nModalidad: " + estadoModalidad.textContent + " activado";
+                return true;
+            } else if (estadoModalidad.value == "REMOTO") {
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent + " activado";
                 return true;
             }
@@ -689,7 +683,10 @@
             if (estadoDireccion.textContent == "...") {
                 areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
                 return false;
-            } else {
+            } else if (estadoDireccion.textContent == "Moviendo a ESTRIBOR") {
+                areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                return true;
+            } else if (estadoDireccion.textContent == "Moviendo a BABOR") {
                 areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
                 return true;
             }
@@ -710,14 +707,12 @@
 
 
         //funciones de lecturas
-        function obtenerLecturas() {
-            setTimeout(() => {
-                areaSistema.value += "\nArea de Lecturas...";
-                obtenerEncode();
-                obtenerPiloto();
-                areaSistema.value += "\nEsperando órdenes...";
-            }, "1000");
-        }
+        let temp = document.getElementById("txtTemp");
+        let txtHum = document.getElementById("txtHum");
+        
+        temp.addEventListener('change', () => obtenerEncode());
+        txtHum.addEventListener('change', () => obtenerPiloto());
+
 
         function obtenerEncode() {
             //TODO faltan funciones para obtener temp y el pwm desde el arduino
@@ -734,6 +729,7 @@
             } else {
                 areaSistema.value += "\nEncoder: Error";
             }
+            areaSistema.value += "\nEsperando órdenes...";
 
         }
 
@@ -752,6 +748,7 @@
             } else {
                 areaSistema.value += "\nPiloto: Error";
             }
+            areaSistema.value += "\nEsperando órdenes...";
         }
 
 
