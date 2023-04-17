@@ -168,7 +168,7 @@
     }
 
     #posicion-element p {
-        text-align: right;
+        text-align: center;
     }
 
     .valores {
@@ -287,6 +287,13 @@
         top: 0;
     }
 
+    .posicion-elementClass {
+        display: block !important;
+    }
+    .body-posiElement{
+        text-align: center;
+    }
+
     /*Media querias ajustar tamaño pantalla*/
     @media only screen and (max-width: 2000px) {}
 
@@ -364,9 +371,14 @@
                     <h2>LECTURAS</h2>
                 </div>
                 <div id="posicion">
-                    <div id="posicion-element">
-                        <p>Temp</p>&nbsp &nbsp &nbsp &nbsp
-                        <input type="number" id="txtTemp" value="1480" style="width: 80px; text-align: center;">
+                    <div id="posicion-element" class="posicion-elementClass">
+                        <div class="title-posiElem">
+                            <p>Temp. De gabinete CC</p>
+                        </div>
+                        <div class="body-posiElement">
+                            <input type="number" id="txtTemp" value="1480" style="width: 80px; text-align: center;">
+                        </div>
+
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Actual (Encoder)</p>&nbsp &nbsp
@@ -388,9 +400,13 @@
                     </div>
                 </div>
                 <div id="posicion">
-                    <div id="posicion-element">
-                        <p>%Hum</p>&nbsp &nbsp
-                        <input type="number" id="txtHum" value="1480" style="width: 80px; text-align: center;">
+                    <div id="posicion-element" class="posicion-elementClass">
+                        <div class="title-posiElem">
+                            <p>%Hum. En gabinete CC</p>
+                        </div>
+                        <div class="body-posiElement">
+                            <input type="number" id="txtHum" value="1480" style="width: 80px; text-align: center;">
+                        </div>
                     </div>
                     <div id="posicion-element">
                         <p>Posicion Deseada Por Piloto</p>&nbsp &nbsp
@@ -490,6 +506,7 @@
         $(document).ready(function () {
 
             estatusInicioSistema();
+            eliminarContraseñaLS();
         });
 
         //***variables***
@@ -511,6 +528,7 @@
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
         var div = document.getElementById("liveAlertPlaceholder");
 
+        
 
         //***funciones***
 
@@ -592,18 +610,39 @@
             estadoReinicioSistema = false;
             estadoEstribor = false;
             estadoBabor = false;
-            let isCalibracionLim = confirm("¿Desea cambiar a Calibracion de Limites?");
-            if (isCalibracionLim) {
+            if (localStorage.getItem("contraseña")) {
+                if (estadoCalibracion) {
+                    //TODO Calibracion
+                    let isCalibracionLim = confirm("¿Seguro que desea cambiar a Calibracion de Limites?");
+                    if (isCalibracionLim) {
+                        estadoCalibracion = false;
+                        window.location.assign("./calibracionView.html");
+                    }
+                }
+            } else {
                 abrirModalPassword();
             }
-
         });
         btnReinicioSistem.addEventListener("click", function () {
             estadoReinicioSistema = true;
             estadoCalibracion = false;
             estadoEstribor = false;
             estadoBabor = false;
-            abrirModalPassword();
+            if (localStorage.getItem("contraseña")) {
+                let isReiniciarSistema = confirm("¿Seguro que desea reiniciar el sistema?");
+                if (isReiniciarSistema) {
+                    estadoModalidad.value = "";
+                    estadoDireccion.textContent = "...";
+                    alerta('Se reinicio correctamente el sistema!', 'success');
+                    setTimeout(() => {
+                        div.innerHTML = '';
+                    }, "4000");
+                    estatusInicioSistema();
+                    estadoReinicioSistema = false;
+                }
+            } else {
+                abrirModalPassword();
+            }
         });
 
 
@@ -620,6 +659,8 @@
         function validarPassword() {
             password = document.getElementById("txtPassword").value;
             if (password === "123") {
+                setInterval(eliminarContraseñaLS,10000);
+                guardarContraseña(password);
                 myModal.hide();
                 if (estadoCalibracion) {
                     //TODO Calibracion
@@ -638,7 +679,7 @@
                         alerta('Se reinicio correctamente el sistema!', 'success');
                         setTimeout(() => {
                             div.innerHTML = '';
-                        }, "5000");
+                        }, "4000");
                         estatusInicioSistema();
                         estadoReinicioSistema = false;
                     }
@@ -659,6 +700,7 @@
             areaSistema.value = "";
             areaSistema.value += "\nInicializando sistema...";
             areaSistema.value += "\nInicio " + cargaExitosa;
+            areaSistema.scrollTop = areaSistema.scrollHeight;
             return true;
 
         }
@@ -668,28 +710,36 @@
             if (estadoModalidad.value == "") {
                 estadoModalidad.textContent = "Esperando...";
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent;
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return false;
             } else if (estadoModalidad.value == "LOCAL") {
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent + " activado";
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return true;
             } else if (estadoModalidad.value == "REMOTO") {
                 areaSistema.value += "\nModalidad: " + estadoModalidad.textContent + " activado";
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return true;
             }
+            
         }
 
         //Funcion que implementa en que direccion se encuentra el sistema para imprimirlo en el cuadro de ESTADO DEL SISTEMA
         function estatusDireccion() {
             if (estadoDireccion.textContent == "...") {
                 areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return false;
             } else if (estadoDireccion.textContent == "Moviendo a ESTRIBOR") {
                 areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return true;
             } else if (estadoDireccion.textContent == "Moviendo a BABOR") {
                 areaSistema.value += "\nDirección: " + estadoDireccion.textContent;
+                areaSistema.scrollTop = areaSistema.scrollHeight;
                 return true;
             }
+
         }
 
         //Se crea la funcion alerta para mostrar mensaje de babor o estribor correctamente.
@@ -709,7 +759,7 @@
         //funciones de lecturas
         let temp = document.getElementById("txtTemp");
         let txtHum = document.getElementById("txtHum");
-        
+
         temp.addEventListener('change', () => obtenerEncode());
         txtHum.addEventListener('change', () => obtenerPiloto());
 
@@ -730,6 +780,7 @@
                 areaSistema.value += "\nEncoder: Error";
             }
             areaSistema.value += "\nEsperando órdenes...";
+            areaSistema.scrollTop = areaSistema.scrollHeight;
 
         }
 
@@ -749,6 +800,18 @@
                 areaSistema.value += "\nPiloto: Error";
             }
             areaSistema.value += "\nEsperando órdenes...";
+            areaSistema.scrollTop = areaSistema.scrollHeight;
+        }
+
+        //funcion para guardar la contraseña en localstorage
+        function guardarContraseña(p_contraseña) {
+            password = p_contraseña;
+            localStorage.setItem("contraseña", password);
+        }
+
+        function eliminarContraseñaLS(){
+            localStorage.removeItem("contraseña");
+            
         }
 
 
