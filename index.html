@@ -506,7 +506,7 @@
         $(document).ready(function () {
 
             estatusInicioSistema();
-            eliminarContraseñaLS();
+            //eliminarContraseñaLS();
         });
 
         //***variables***
@@ -774,13 +774,13 @@
             let grados = parseInt(temp, 10) / parseInt(mm, 10);
             encoderMM.value = mm;
             encoderGrados.value = grados;
-            if (mm != null || grados != null) {
+           /* if (mm != null || grados != null) {
                 areaSistema.value += "\nEncoder: OK";
             } else {
                 areaSistema.value += "\nEncoder: Error";
             }
             areaSistema.value += "\nEsperando órdenes...";
-            areaSistema.scrollTop = areaSistema.scrollHeight;
+            areaSistema.scrollTop = areaSistema.scrollHeight;*/
 
         }
 
@@ -794,13 +794,13 @@
             let grados = parseInt(Hum, 10) * parseInt(mm, 10);
             pilotoMM.value = mm;
             pilotoGrados.value = grados;
-            if (mm != null || grados != null) {
+            /*if (mm != null || grados != null) {
                 areaSistema.value += "\nPiloto: OK";
             } else {
                 areaSistema.value += "\nPiloto: Error";
             }
             areaSistema.value += "\nEsperando órdenes...";
-            areaSistema.scrollTop = areaSistema.scrollHeight;
+            areaSistema.scrollTop = areaSistema.scrollHeight;*/
         }
 
         //funcion para guardar la contraseña en localstorage
