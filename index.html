@@ -290,7 +290,8 @@
     .posicion-elementClass {
         display: block !important;
     }
-    .body-posiElement{
+
+    .body-posiElement {
         text-align: center;
     }
 
@@ -528,7 +529,7 @@
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
         var div = document.getElementById("liveAlertPlaceholder");
 
-        
+
 
         //***funciones***
 
@@ -541,6 +542,15 @@
                         estadoModalidad.value = "LOCAL";
                         estadoModalidad.textContent = "LOCAL";
                         estatusModalidad();
+                        // Obtiene la URL actual
+                        var currentUrl = window.location.href;
+
+                        // Crea los parámetros que deseas agregar
+                        var parameters = '?state1=0';
+
+                        // Actualiza la URL actual con los nuevos parámetros
+                        window.history.replaceState(null, null, currentUrl + parameters);
+
                     }
                     break;
                 case 'remoto':
@@ -659,7 +669,7 @@
         function validarPassword() {
             password = document.getElementById("txtPassword").value;
             if (password === "123") {
-                setInterval(eliminarContraseñaLS,10000);
+                setInterval(eliminarContraseñaLS, 10000);
                 guardarContraseña(password);
                 myModal.hide();
                 if (estadoCalibracion) {
@@ -721,7 +731,7 @@
                 areaSistema.scrollTop = areaSistema.scrollHeight;
                 return true;
             }
-            
+
         }
 
         //Funcion que implementa en que direccion se encuentra el sistema para imprimirlo en el cuadro de ESTADO DEL SISTEMA
@@ -774,13 +784,13 @@
             let grados = parseInt(temp, 10) / parseInt(mm, 10);
             encoderMM.value = mm;
             encoderGrados.value = grados;
-           /* if (mm != null || grados != null) {
-                areaSistema.value += "\nEncoder: OK";
-            } else {
-                areaSistema.value += "\nEncoder: Error";
-            }
-            areaSistema.value += "\nEsperando órdenes...";
-            areaSistema.scrollTop = areaSistema.scrollHeight;*/
+            /* if (mm != null || grados != null) {
+                 areaSistema.value += "\nEncoder: OK";
+             } else {
+                 areaSistema.value += "\nEncoder: Error";
+             }
+             areaSistema.value += "\nEsperando órdenes...";
+             areaSistema.scrollTop = areaSistema.scrollHeight;*/
 
         }
 
@@ -809,9 +819,9 @@
             localStorage.setItem("contraseña", password);
         }
 
-        function eliminarContraseñaLS(){
+        function eliminarContraseñaLS() {
             localStorage.removeItem("contraseña");
-            
+
         }
 
 
