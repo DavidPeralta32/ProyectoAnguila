@@ -508,6 +508,10 @@
 
             estatusInicioSistema();
             //eliminarContraseñaLS();
+            getStateModalidadURL();
+
+
+
         });
 
         //***variables***
@@ -528,10 +532,67 @@
         let btnConfirmarPassword = document.getElementById("btn-Confirmar");
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
         var div = document.getElementById("liveAlertPlaceholder");
+        let urlModalidad =null;
+        let urlDireccion = null;
 
 
 
         //***funciones***
+
+        function getStateModalidadURL() {
+            // Obtener los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Obtener el valor de un parámetro específico
+            if (urlParams.has('state1') || urlParams.has('state2')) {
+                const getModalidad = urlParams.get('state1'); // valor de la url 0=local , 1= remoto
+                const getDireccion = urlParams.get('state2'); // valor de la url 0=Babor , 1= Estribor
+
+                //Modalidad
+                if (getModalidad == 0 || localStorage.getItem("state1") == 0) {
+                    estadoModalidad.value = "LOCAL";
+                    estadoModalidad.textContent = "LOCAL";
+                    estatusModalidad();
+                    localStorage.setItem("state1", getModalidad); // guardo el valor de state1 en localstorage
+                    console.log("local: " + getModalidad);
+                }
+
+                if(getModalidad == 1 || localStorage.getItem("state1") == 1){
+                    estadoModalidad.value = "REMOTO";
+                    estadoModalidad.textContent = "REMOTO";
+                    estatusModalidad();
+                    localStorage.setItem("state1", getModalidad); // guardo el valor de state1 en localstorage
+                    console.log("Remoto: " + getModalidad);
+                }
+
+
+                //Direccion
+                if (getDireccion == 0 || localStorage.getItem("state2") == 0) {
+                    alerta('Direccion correcta a Babor!', 'success');
+                    setTimeout(() => {
+                        div.innerHTML = '';
+                    }, "5000");
+                    estadoDireccion.textContent = "Moviendo a BABOR";
+                    estadoBabor = false;
+                    estatusDireccion();
+                    localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
+                    console.log("BABOR: " + getDireccion);
+                }
+                
+                if(getDireccion == 1 || localStorage.getItem("state2") == 1){
+                    alerta('Direccion correcta a Estribor!', 'success');
+                    setTimeout(() => {
+                        div.innerHTML = '';
+                    }, "5000");
+                    estadoDireccion.textContent = "Moviendo a ESTRIBOR";
+                    estadoEstribor = false;
+                    estatusDireccion();
+                    localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
+                    console.log("ESTRIBOR: " + getDireccion);
+                }
+                
+            }
+        }
 
         //Funcion que cambia la modalidad de manual a autonomo o viseverza
         function cambiarModalidad(tipoModalidad) {
@@ -539,31 +600,29 @@
                 case 'local':
                     let isManual = confirm("¿Desea cambiar a modalidad Local?");
                     if (isManual) {
+                        localStorage.setItem("state1", 0); // guardo el valor de state2 en localstorage
                         estadoModalidad.value = "LOCAL";
                         estadoModalidad.textContent = "LOCAL";
                         estatusModalidad();
-                        // Obtiene la URL actual
-                        var currentUrl = window.location.href;
 
-                        // Crea los parámetros que deseas agregar
-                        var parameters = '?state1=0';
-
-                        // Actualiza la URL actual con los nuevos parámetros
-                        window.history.replaceState(null, null, currentUrl + parameters);
+                        window.location.assign("./index.html?state1=0&state2="+localStorage.getItem('state2')+"");
 
                     }
                     break;
                 case 'remoto':
                     let isAutonomo = confirm("¿Desea cambiar a modalidad Remoto?");
                     if (isAutonomo) {
+                        localStorage.setItem("state1", 1); // guardo el valor de state2 en localstorage
                         estadoModalidad.value = "REMOTO";
                         estadoModalidad.textContent = "REMOTO";
                         estatusModalidad();
+                        window.location.assign("./index.html?state1=1&state2="+localStorage.getItem('state2')+"");
                     }
                     break;
                 default:
                     estadoModalidad.textContent = "Esperando...";
                     estatusModalidad();
+
                     break;
             }
         }
@@ -575,6 +634,7 @@
                 case 'BABOR':
                     let moverBabor = confirm("¿Desea mover a BABOR?");
                     if (moverBabor) {
+                        localStorage.setItem("state2", 0); // guardo el valor de state2 en localstorage
                         estadoEstribor = false;
                         estadoReinicioSistema = false;
                         estadoCalibracion = false;
@@ -587,6 +647,7 @@
                         estadoDireccion.textContent = "Moviendo a BABOR";
                         estadoBabor = false;
                         estatusDireccion();
+                        window.location.assign("./index.html?state1="+localStorage.getItem('state1')+"&state2=0");
                     } else {
                         estadoBabor = false;
                     }
@@ -594,6 +655,7 @@
                 case 'ESTRIBOR':
                     let moverEstribor = confirm("¿Desea mover a ESTRIBOR?");
                     if (moverEstribor) {
+                        localStorage.setItem("state2", 1); // guardo el valor de state2 en localstorage
                         estadoBabor = false;
                         estadoReinicioSistema = false;
                         estadoCalibracion = false;
@@ -605,6 +667,7 @@
                         estadoDireccion.textContent = "Moviendo a ESTRIBOR";
                         estadoEstribor = false;
                         estatusDireccion();
+                        window.location.assign("./index.html?state1="+localStorage.getItem('state1')+"&state2=1");
                     } else {
                         estadoEstribor = false;
                     }
@@ -649,6 +712,10 @@
                     }, "4000");
                     estatusInicioSistema();
                     estadoReinicioSistema = false;
+                    localStorage.removeItem("state1");
+                    localStorage.removeItem("state2");
+                    window.location.assign("./index.html");
+
                 }
             } else {
                 abrirModalPassword();
@@ -692,6 +759,9 @@
                         }, "4000");
                         estatusInicioSistema();
                         estadoReinicioSistema = false;
+                        localStorage.removeItem("state1");
+                        localStorage.removeItem("state2");
+                        window.location.assign("./index.html");
                     }
                 }
             } else {
