@@ -328,6 +328,9 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+    <!--jQEURY-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>Vehiculo ANGUILA</title>
 </head>
 
@@ -438,7 +441,8 @@
                     <h2>PRUEBA DE SISTEMA DE DIRECCIÓN</h2>
                 </div>
                 <div class="button-container">
-                    <button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>
+                    <!--<button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>-->
+                    <button class="buttons" onclick="enviarDatos('1')">Mover hacia BABOR</button>
                     <button class="buttons" onclick="cambiarDireccion('ESTRIBOR')">Mover hacia ESTRIBOR</button>
                 </div>
                 <div id="estadoDireccion">
@@ -532,7 +536,7 @@
         let btnConfirmarPassword = document.getElementById("btn-Confirmar");
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
         var div = document.getElementById("liveAlertPlaceholder");
-        let urlModalidad =null;
+        let urlModalidad = null;
         let urlDireccion = null;
 
 
@@ -557,7 +561,7 @@
                     console.log("local: " + getModalidad);
                 }
 
-                if(getModalidad == 1 || localStorage.getItem("state1") == 1){
+                if (getModalidad == 1 || localStorage.getItem("state1") == 1) {
                     estadoModalidad.value = "REMOTO";
                     estadoModalidad.textContent = "REMOTO";
                     estatusModalidad();
@@ -578,8 +582,8 @@
                     localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
                     console.log("BABOR: " + getDireccion);
                 }
-                
-                if(getDireccion == 1 || localStorage.getItem("state2") == 1){
+
+                if (getDireccion == 1 || localStorage.getItem("state2") == 1) {
                     alerta('Direccion correcta a Estribor!', 'success');
                     setTimeout(() => {
                         div.innerHTML = '';
@@ -590,7 +594,7 @@
                     localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
                     console.log("ESTRIBOR: " + getDireccion);
                 }
-                
+
             }
         }
 
@@ -605,7 +609,7 @@
                         estadoModalidad.textContent = "LOCAL";
                         estatusModalidad();
 
-                        window.location.assign("./index.html?state1=0&state2="+localStorage.getItem('state2')+"");
+                        window.location.assign("./index.html?state1=0&state2=" + localStorage.getItem('state2') + "");
 
                     }
                     break;
@@ -616,7 +620,7 @@
                         estadoModalidad.value = "REMOTO";
                         estadoModalidad.textContent = "REMOTO";
                         estatusModalidad();
-                        window.location.assign("./index.html?state1=1&state2="+localStorage.getItem('state2')+"");
+                        window.location.assign("./index.html?state1=1&state2=" + localStorage.getItem('state2') + "");
                     }
                     break;
                 default:
@@ -647,7 +651,7 @@
                         estadoDireccion.textContent = "Moviendo a BABOR";
                         estadoBabor = false;
                         estatusDireccion();
-                        window.location.assign("./index.html?state1="+localStorage.getItem('state1')+"&state2=0");
+                        window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=0");
                     } else {
                         estadoBabor = false;
                     }
@@ -667,7 +671,7 @@
                         estadoDireccion.textContent = "Moviendo a ESTRIBOR";
                         estadoEstribor = false;
                         estatusDireccion();
-                        window.location.assign("./index.html?state1="+localStorage.getItem('state1')+"&state2=1");
+                        window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=1");
                     } else {
                         estadoEstribor = false;
                     }
@@ -892,6 +896,21 @@
         function eliminarContraseñaLS() {
             localStorage.removeItem("contraseña");
 
+        }
+
+
+        function enviarDatos(dato) {
+            $.ajax({
+                url: './',  // URL a la que se enviarán los datos
+                method: 'GET',
+                data: { dato: dato },  // Dato a enviar
+                success: function (response) {
+                    console.log('Datos enviados correctamente');
+                },
+                error: function () {
+                    console.log('Error al enviar los datos');
+                }
+            });
         }
 
 
