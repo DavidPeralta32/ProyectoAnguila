@@ -360,9 +360,8 @@
                     <h2>CAMBIO DE MODALIDAD</h2>
                 </div>
                 <div class="button-container">
-                    <button id="local" class="buttons btn-modalidad" onclick="cambiarModalidad('local')">LOCAL</button>
-                    <button id="remoto" class="buttons btn-modalidad"
-                        onclick="cambiarModalidad('remoto')">REMOTO</button>
+                    <button id="local" class="buttons btn-modalidad" onclick="enviarDatos('0')">LOCAL</button>
+                    <button id="remoto" class="buttons btn-modalidad"onclick="enviarDatos('1')">REMOTO</button>
                 </div>
                 <div id="estado">
                     <h3>ESTADO ACTUAL:</h3>
@@ -442,15 +441,15 @@
                 </div>
                 <div class="button-container">
                     <!--<button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>-->
-                    <button class="buttons" onclick="enviarDatos('1')">Mover hacia BABOR</button>
-                    <button class="buttons" onclick="cambiarDireccion('ESTRIBOR')">Mover hacia ESTRIBOR</button>
+                    <button class="buttons" onclick="enviarDatos('2')">Mover hacia BABOR</button>
+                    <button class="buttons" onclick="enviarDatos('3')">Mover hacia ESTRIBOR</button>
                 </div>
                 <div id="estadoDireccion">
                     <p id="statusDireccion">...</p>
                 </div>
                 <div class="button-container">
                     <button class="buttons" id="btnCalibacrionLim">CALIBRACION DE LIMITES</button>
-                    <button class="buttons" id="btnReinicioSistem">REINICIO DEL SISTEMA</button>
+                    <button class="buttons" id="btnReinicioSistem" onclick="enviarDatos('4')">REINICIO DEL SISTEMA</button>
                 </div>
             </div>
 
@@ -512,7 +511,7 @@
 
             estatusInicioSistema();
             //eliminarContraseñaLS();
-            getStateModalidadURL();
+            //getStateModalidadURL();
 
 
 
@@ -608,9 +607,7 @@
                         estadoModalidad.value = "LOCAL";
                         estadoModalidad.textContent = "LOCAL";
                         estatusModalidad();
-
-                        window.location.assign("./index.html?state1=0&state2=" + localStorage.getItem('state2') + "");
-
+                        //window.location.assign("./index.html?state1=0&state2=" + localStorage.getItem('state2') + "");
                     }
                     break;
                 case 'remoto':
@@ -620,7 +617,7 @@
                         estadoModalidad.value = "REMOTO";
                         estadoModalidad.textContent = "REMOTO";
                         estatusModalidad();
-                        window.location.assign("./index.html?state1=1&state2=" + localStorage.getItem('state2') + "");
+                        //window.location.assign("./index.html?state1=1&state2=" + localStorage.getItem('state2') + "");
                     }
                     break;
                 default:
@@ -647,11 +644,11 @@
                         alerta('Direccion correcta a Babor!', 'success');
                         setTimeout(() => {
                             div.innerHTML = '';
-                        }, "5000");
+                        }, "4000");
                         estadoDireccion.textContent = "Moviendo a BABOR";
                         estadoBabor = false;
                         estatusDireccion();
-                        window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=0");
+                        //window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=0");
                     } else {
                         estadoBabor = false;
                     }
@@ -667,11 +664,11 @@
                         alerta('Direccion correcta a Estribor!', 'success');
                         setTimeout(() => {
                             div.innerHTML = '';
-                        }, "5000");
+                        }, "4000");
                         estadoDireccion.textContent = "Moviendo a ESTRIBOR";
                         estadoEstribor = false;
                         estatusDireccion();
-                        window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=1");
+                        //window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=1");
                     } else {
                         estadoEstribor = false;
                     }
@@ -700,7 +697,7 @@
                 abrirModalPassword();
             }
         });
-        btnReinicioSistem.addEventListener("click", function () {
+        function reinicioSistema(){
             estadoReinicioSistema = true;
             estadoCalibracion = false;
             estadoEstribor = false;
@@ -718,13 +715,14 @@
                     estadoReinicioSistema = false;
                     localStorage.removeItem("state1");
                     localStorage.removeItem("state2");
-                    window.location.assign("./index.html");
+                    localStorage.removeItem("contraseña");
+                    //window.location.assign("./index.html");
 
                 }
             } else {
                 abrirModalPassword();
             }
-        });
+        }
 
 
         //funcion que abre el modal para verificar la contraseña que se le pide al usuario.
@@ -765,7 +763,8 @@
                         estadoReinicioSistema = false;
                         localStorage.removeItem("state1");
                         localStorage.removeItem("state2");
-                        window.location.assign("./index.html");
+                        localStorage.removeItem("contraseña");
+                        //window.location.assign("./index.html");
                     }
                 }
             } else {
@@ -903,9 +902,25 @@
             $.ajax({
                 url: './',  // URL a la que se enviarán los datos
                 method: 'GET',
-                data: { dato: dato },  // Dato a enviar
+                data: { modo: dato },  // Dato a enviar
                 success: function (response) {
                     console.log('Datos enviados correctamente');
+                    if(dato == 0){
+                        cambiarModalidad('local');
+                    }
+                    if(dato == 1){
+                        cambiarModalidad('remoto');
+                    }
+                    if(dato == 2){
+                        cambiarDireccion('BABOR');
+                    }
+                    if(dato == 3){
+                        cambiarDireccion('ESTRIBOR');
+                    }
+                    if(dato == 4){
+                        reinicioSistema();
+                    }
+
                 },
                 error: function () {
                     console.log('Error al enviar los datos');
