@@ -360,8 +360,8 @@
                     <h2>CAMBIO DE MODALIDAD</h2>
                 </div>
                 <div class="button-container">
-                    <button id="local" class="buttons btn-modalidad" onclick="enviarDatos('0')">LOCAL</button>
-                    <button id="remoto" class="buttons btn-modalidad"onclick="enviarDatos('1')">REMOTO</button>
+                    <button id="local" class="buttons btn-modalidad" onclick="cambiarModalidad('local')">LOCAL</button>
+                    <button id="remoto" class="buttons btn-modalidad"onclick="cambiarModalidad('remoto')">REMOTO</button>
                 </div>
                 <div id="estado">
                     <h3>ESTADO ACTUAL:</h3>
@@ -441,15 +441,15 @@
                 </div>
                 <div class="button-container">
                     <!--<button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>-->
-                    <button class="buttons" onclick="enviarDatos('2')">Mover hacia BABOR</button>
-                    <button class="buttons" onclick="enviarDatos('3')">Mover hacia ESTRIBOR</button>
+                    <button class="buttons" onclick="cambiarDireccion('BABOR')">Mover hacia BABOR</button>
+                    <button class="buttons" onclick="cambiarDireccion('ESTRIBOR')">Mover hacia ESTRIBOR</button>
                 </div>
                 <div id="estadoDireccion">
                     <p id="statusDireccion">...</p>
                 </div>
                 <div class="button-container">
                     <button class="buttons" id="btnCalibacrionLim">CALIBRACION DE LIMITES</button>
-                    <button class="buttons" id="btnReinicioSistem" onclick="enviarDatos('4')">REINICIO DEL SISTEMA</button>
+                    <button class="buttons" id="btnReinicioSistem" onclick="reinicioSistema()">REINICIO DEL SISTEMA</button>
                 </div>
             </div>
 
@@ -542,61 +542,6 @@
 
         //***funciones***
 
-        function getStateModalidadURL() {
-            // Obtener los parámetros de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Obtener el valor de un parámetro específico
-            if (urlParams.has('state1') || urlParams.has('state2')) {
-                const getModalidad = urlParams.get('state1'); // valor de la url 0=local , 1= remoto
-                const getDireccion = urlParams.get('state2'); // valor de la url 0=Babor , 1= Estribor
-
-                //Modalidad
-                if (getModalidad == 0 || localStorage.getItem("state1") == 0) {
-                    estadoModalidad.value = "LOCAL";
-                    estadoModalidad.textContent = "LOCAL";
-                    estatusModalidad();
-                    localStorage.setItem("state1", getModalidad); // guardo el valor de state1 en localstorage
-                    console.log("local: " + getModalidad);
-                }
-
-                if (getModalidad == 1 || localStorage.getItem("state1") == 1) {
-                    estadoModalidad.value = "REMOTO";
-                    estadoModalidad.textContent = "REMOTO";
-                    estatusModalidad();
-                    localStorage.setItem("state1", getModalidad); // guardo el valor de state1 en localstorage
-                    console.log("Remoto: " + getModalidad);
-                }
-
-
-                //Direccion
-                if (getDireccion == 0 || localStorage.getItem("state2") == 0) {
-                    alerta('Direccion correcta a Babor!', 'success');
-                    setTimeout(() => {
-                        div.innerHTML = '';
-                    }, "5000");
-                    estadoDireccion.textContent = "Moviendo a BABOR";
-                    estadoBabor = false;
-                    estatusDireccion();
-                    localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
-                    console.log("BABOR: " + getDireccion);
-                }
-
-                if (getDireccion == 1 || localStorage.getItem("state2") == 1) {
-                    alerta('Direccion correcta a Estribor!', 'success');
-                    setTimeout(() => {
-                        div.innerHTML = '';
-                    }, "5000");
-                    estadoDireccion.textContent = "Moviendo a ESTRIBOR";
-                    estadoEstribor = false;
-                    estatusDireccion();
-                    localStorage.setItem("state2", getDireccion); // guardo el valor de state2 en localstorage
-                    console.log("ESTRIBOR: " + getDireccion);
-                }
-
-            }
-        }
-
         //Funcion que cambia la modalidad de manual a autonomo o viseverza
         function cambiarModalidad(tipoModalidad) {
             switch (tipoModalidad) {
@@ -607,8 +552,9 @@
                         estadoModalidad.value = "LOCAL";
                         estadoModalidad.textContent = "LOCAL";
                         estatusModalidad();
-                        //window.location.assign("./index.html?state1=0&state2=" + localStorage.getItem('state2') + "");
-                    }
+                        //Aqui mando los datos al arduino
+                        enviarDatos(0);
+                        }
                     break;
                 case 'remoto':
                     let isAutonomo = confirm("¿Desea cambiar a modalidad Remoto?");
@@ -617,7 +563,8 @@
                         estadoModalidad.value = "REMOTO";
                         estadoModalidad.textContent = "REMOTO";
                         estatusModalidad();
-                        //window.location.assign("./index.html?state1=1&state2=" + localStorage.getItem('state2') + "");
+                        //Aqui mando los datos al arduino
+                        enviarDatos(1);
                     }
                     break;
                 default:
@@ -648,7 +595,9 @@
                         estadoDireccion.textContent = "Moviendo a BABOR";
                         estadoBabor = false;
                         estatusDireccion();
-                        //window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=0");
+                        //Aqui mando los datos al arduino
+                        enviarDatos(2);
+
                     } else {
                         estadoBabor = false;
                     }
@@ -668,7 +617,8 @@
                         estadoDireccion.textContent = "Moviendo a ESTRIBOR";
                         estadoEstribor = false;
                         estatusDireccion();
-                        //window.location.assign("./index.html?state1=" + localStorage.getItem('state1') + "&state2=1");
+                        //Aqui mando los datos al arduino
+                        enviarDatos(3);
                     } else {
                         estadoEstribor = false;
                     }
@@ -697,6 +647,7 @@
                 abrirModalPassword();
             }
         });
+
         function reinicioSistema(){
             estadoReinicioSistema = true;
             estadoCalibracion = false;
@@ -713,10 +664,9 @@
                     }, "4000");
                     estatusInicioSistema();
                     estadoReinicioSistema = false;
-                    localStorage.removeItem("state1");
-                    localStorage.removeItem("state2");
                     localStorage.removeItem("contraseña");
-                    //window.location.assign("./index.html");
+                    enviarDatos(4);
+                    window.location.assign("./index.html");
 
                 }
             } else {
@@ -761,10 +711,9 @@
                         }, "4000");
                         estatusInicioSistema();
                         estadoReinicioSistema = false;
-                        localStorage.removeItem("state1");
-                        localStorage.removeItem("state2");
                         localStorage.removeItem("contraseña");
-                        //window.location.assign("./index.html");
+                        enviarDatos(4);
+                        window.location.assign("./index.html");
                     }
                 }
             } else {
@@ -901,11 +850,11 @@
         function enviarDatos(dato) {
             $.ajax({
                 url: './',  // URL a la que se enviarán los datos
-                method: 'GET',
+                method: 'POST',
                 data: { modo: dato },  // Dato a enviar
-                success: function (response) {
-                    console.log('Datos enviados correctamente');
-                    if(dato == 0){
+                complete: () => {
+                    console.log("Se realizo la operacion");
+                    /*if(dato == 0){
                         cambiarModalidad('local');
                     }
                     if(dato == 1){
@@ -919,12 +868,8 @@
                     }
                     if(dato == 4){
                         reinicioSistema();
-                    }
-
+                    }*/
                 },
-                error: function () {
-                    console.log('Error al enviar los datos');
-                }
             });
         }
 
