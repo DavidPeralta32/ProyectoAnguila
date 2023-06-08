@@ -486,6 +486,7 @@
                 const alertSucces = document.getElementById("alert_succes1");
                 alertSucces.setAttribute("style","display: flex !important;");
             }
+            enviarDatos(5);
         }
 
         function ajustarBABOR(){
@@ -494,6 +495,7 @@
                 const alertSucces2 = document.getElementById("alert_succes2");
                 alertSucces2.setAttribute("style","display: flex !important;");
             }
+            enviarDatos(6)
         }
 
         function ajustarEstribor(){
@@ -502,6 +504,18 @@
                 const alertSucces3 = document.getElementById("alert_succes3");
                 alertSucces3.setAttribute("style","display: flex !important;");
             }
+            enviarDatos(7)
+        }
+
+        function enviarDatos(dato) {
+            $.ajax({
+                url: './',  // URL a la que se enviarán los datos
+                method: 'GET',
+                data: { modo: dato },  // Dato a enviar
+                complete: () => {
+                    console.log("Se realizo la operacion de calibracion "+dato);
+                },
+            });
         }
     </script>
 

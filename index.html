@@ -664,9 +664,9 @@
                     }, "4000");
                     estatusInicioSistema();
                     estadoReinicioSistema = false;
-                    localStorage.removeItem("contraseña");
                     enviarDatos(4);
-                    window.location.assign("./index.html");
+                    localStorage.removeItem("contraseña");
+                    //window.location.assign("./index.html");
 
                 }
             } else {
@@ -711,9 +711,10 @@
                         }, "4000");
                         estatusInicioSistema();
                         estadoReinicioSistema = false;
-                        localStorage.removeItem("contraseña");
+                        
                         enviarDatos(4);
-                        window.location.assign("./index.html");
+                        localStorage.removeItem("contraseña");
+                        //window.location.assign("./index.html");
                     }
                 }
             } else {
@@ -850,25 +851,10 @@
         function enviarDatos(dato) {
             $.ajax({
                 url: './',  // URL a la que se enviarán los datos
-                method: 'POST',
+                method: 'GET',
                 data: { modo: dato },  // Dato a enviar
                 complete: () => {
                     console.log("Se realizo la operacion");
-                    /*if(dato == 0){
-                        cambiarModalidad('local');
-                    }
-                    if(dato == 1){
-                        cambiarModalidad('remoto');
-                    }
-                    if(dato == 2){
-                        cambiarDireccion('BABOR');
-                    }
-                    if(dato == 3){
-                        cambiarDireccion('ESTRIBOR');
-                    }
-                    if(dato == 4){
-                        reinicioSistema();
-                    }*/
                 },
             });
         }
