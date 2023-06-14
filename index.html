@@ -361,7 +361,8 @@
                 </div>
                 <div class="button-container">
                     <button id="local" class="buttons btn-modalidad" onclick="cambiarModalidad('local')">LOCAL</button>
-                    <button id="remoto" class="buttons btn-modalidad"onclick="cambiarModalidad('remoto')">REMOTO</button>
+                    <button id="remoto" class="buttons btn-modalidad"
+                        onclick="cambiarModalidad('remoto')">REMOTO</button>
                 </div>
                 <div id="estado">
                     <h3>ESTADO ACTUAL:</h3>
@@ -449,7 +450,8 @@
                 </div>
                 <div class="button-container">
                     <button class="buttons" id="btnCalibacrionLim">CALIBRACION DE LIMITES</button>
-                    <button class="buttons" id="btnReinicioSistem" onclick="reinicioSistema()">REINICIO DEL SISTEMA</button>
+                    <button class="buttons" id="btnReinicioSistem" onclick="reinicioSistema()">REINICIO DEL
+                        SISTEMA</button>
                 </div>
             </div>
 
@@ -500,18 +502,17 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-        </script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
         integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
-        </script>
+    </script>
 
     <!-- Funciones JS -->
     <script>
         $(document).ready(function () {
 
             estatusInicioSistema();
-            //eliminarContraseñaLS();
-            //getStateModalidadURL();
+            getLecturas();
 
 
 
@@ -554,7 +555,7 @@
                         estatusModalidad();
                         //Aqui mando los datos al arduino
                         enviarDatos(0);
-                        }
+                    }
                     break;
                 case 'remoto':
                     let isAutonomo = confirm("¿Desea cambiar a modalidad Remoto?");
@@ -648,7 +649,7 @@
             }
         });
 
-        function reinicioSistema(){
+        function reinicioSistema() {
             estadoReinicioSistema = true;
             estadoCalibracion = false;
             estadoEstribor = false;
@@ -665,6 +666,7 @@
                     estatusInicioSistema();
                     estadoReinicioSistema = false;
                     enviarDatos(4);
+                    getLecturas();
                     localStorage.removeItem("contraseña");
                     //window.location.assign("./index.html");
 
@@ -711,8 +713,9 @@
                         }, "4000");
                         estatusInicioSistema();
                         estadoReinicioSistema = false;
-                        
+
                         enviarDatos(4);
+                        getLecturas();
                         localStorage.removeItem("contraseña");
                         //window.location.assign("./index.html");
                     }
@@ -850,15 +853,29 @@
 
         function enviarDatos(dato) {
             $.ajax({
-                url: './',  // URL a la que se enviarán los datos
+                url: './', // URL a la que se enviarán los datos
                 method: 'GET',
-                data: { modo: dato },  // Dato a enviar
+                data: {
+                    modo: dato
+                }, // Dato a enviar
                 complete: () => {
                     console.log("Se realizo la operacion");
                 },
             });
         }
 
+        function getLecturas() {
+            $.ajax({
+                url: './',
+                method: 'GET',
+                data: {
+                    lectura: 1
+                },
+            }).done((response)=>{
+                //let jsonResponse = JSON.parse(response);
+                console.log(response);
+            });
+        }
 
     </script>
 </body>
